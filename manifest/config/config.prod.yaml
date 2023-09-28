@@ -1,0 +1,73 @@
+server:
+  name: "goframe-starter"
+  address:     ":8888"
+  serverRoot: "resource/public"
+  openapiPath: "/api.json"
+  swaggerPath: "/swagger"
+  # Logging配置
+  logPath: "logs/server"                 # 日志文件存储目录路径，建议使用绝对路径。默认为空，表示关闭
+  logStdout: true               # 日志是否输出到终端。默认为true
+  errorStack: true               # 当Server捕获到异常时是否记录堆栈信息到日志中。默认为true
+  errorLogEnabled: true               # 是否记录异常日志信息到日志中。默认为true
+  errorLogPattern: "error-{Ymd}.log"  # 异常错误日志文件格式。默认为"error-{Ymd}.log"
+  accessLogEnabled: true              # 是否记录访问日志。默认为false
+  accessLogPattern: "access-{Ymd}.log" # 访问日志文件格式。默认为"access-{Ymd}.log"
+
+logger:
+  path: "logs/run"
+  file: "{Y-m-d}.log"
+  level : "all"
+  stdout: true
+
+gfToken:
+  cacheKey: "gfToken:"
+  timeOut: 10800
+  maxRefresh: 5400
+  multiLogin: true
+  encryptKey: "49c54195e750b04e74a8429b17896586"
+  cacheMode: 2 # 1 gcache  2 redis 3 file
+  globalMiddleware: true
+  excludePaths:
+    - "/api/login"
+
+# Database.
+database:
+  logger:
+    level:   "all"
+    stdout:  true
+    Path: "logs/sql"
+
+  default:
+    link: "mysql:root:123456@tcp(127.0.0.1:3306)/starter?loc=Local&parseTime=true"
+    debug:  true
+    charset: "utf8mb4" #数据库编码
+    dryRun: false #空跑
+    maxIdle: 10 #连接池最大闲置的连接数
+    maxOpen: 10 #连接池最大打开的连接数
+    maxLifetime: "30s" #(单位秒)连接对象可重复使用的时间长度
+
+# Redis 配置示例
+redis:
+  # 单实例配置
+  default:
+    address: 127.0.0.1:6379
+    db: 1
+    idleTimeout: "60s" #连接最大空闲时间，使用时间字符串例如30s/1m/1d
+    maxConnLifetime: "90s" #连接最长存活时间，使用时间字符串例如30s/1m/1d
+    waitTimeout: "60s" #等待连接池连接的超时时间，使用时间字符串例如30s/1m/1d
+    dialTimeout: "30s" #TCP连接的超时时间，使用时间字符串例如30s/1m/1d
+    readTimeout: "30s" #TCP的Read操作超时时间，使用时间字符串例如30s/1m/1d
+    writeTimeout: "30s" #TCP的Write操作超时时间，使用时间字符串例如30s/1m/1d
+    maxActive: 100
+
+#casbin配置
+casbin:
+  modelFile: "./resource/casbin/rbac_model.conf"
+  policyFile: "./resource/casbin/rbac_policy.csv"
+
+#消息推送配置
+pusher:
+  appId: "1675714"
+  key: "06d4f5c8c305bf2ca68e"
+  secret: "1c72caae84c5342fbe80"
+  cluster: "ap3"

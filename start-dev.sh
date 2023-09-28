@@ -1,0 +1,1 @@
+go run main.go --gf.gcfg.file=config.dev.yaml
