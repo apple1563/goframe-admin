@@ -16,7 +16,6 @@ manifest/output/
 temp/
 temp.yaml
 bin
-**/config/config.yaml
 logs
 **/logs
 resource/upload/**
