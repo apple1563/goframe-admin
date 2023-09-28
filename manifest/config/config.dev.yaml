@@ -2,6 +2,7 @@ server:
   name: "goframe-starter"
   address:     ":8888"
   serverRoot: "resource/public"
+  uploadRoot: "resource/public/upload"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
   # Logging配置
