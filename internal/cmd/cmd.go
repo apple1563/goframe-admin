@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"goframe-starter/internal/controller/menu"
 	"goframe-starter/internal/controller/user"
 	"goframe-starter/internal/middleware"
 	"goframe-starter/internal/service/gtokenService"
@@ -31,7 +32,10 @@ var (
 					hello.New(),
 				)
 				group.Group("/api", func(group *ghttp.RouterGroup) {
-					group.Bind(user.UserCtrl)
+					group.Bind(
+						user.UserCtrl,
+						menu.MenuCtrl,
+					)
 				})
 			})
 			if err := xgtoken.MyGtoken.New(ctx, gtokenService.GFtokenFnInstance).Start(); err != nil {

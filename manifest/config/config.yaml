@@ -66,8 +66,8 @@ redis:
 
 #casbin配置
 casbin:
-  modelFile: "./resource/casbin/rbac_model.conf"
-  policyFile: "./resource/casbin/rbac_policy.csv"
+  modelFile: "./resource/casbin/model.conf"
+  policyFile: "./resource/casbin/policy.csv"
 
 #消息推送配置
 pusher:

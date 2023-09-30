@@ -37,4 +37,5 @@ var (
 	ErrWithdrawBindAccount = gerror.NewCode(gcode.New(-2002, "请先绑定提现账号", ""))
 	ErrWithdrawMin         = gerror.NewCode(gcode.New(-2003, "低于最低提现额度", ""))
 	ErrBindBankcard        = gerror.NewCode(gcode.New(-2004, "您已绑定过银行卡", ""))
+	ErrMenuPathExists      = gerror.NewCode(gcode.New(-3000, "该path已存在", ""))
 )
