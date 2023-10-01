@@ -8,12 +8,16 @@ import (
 
 type Menu struct{}
 
-var MenuCtrl = new(Menu)
+var Ctrl = new(Menu)
 
 func (u *Menu) AddMenu(ctx context.Context, req *vmenu.AddMenuReq) (res *vmenu.AddMenuRes, err error) {
 	return menuService.AddMenu(ctx, req)
 }
 
-func (u *Menu) ListMenu(ctx context.Context, req *vmenu.ListMenuReq) (res *vmenu.ListMenuRes, err error) {
-	return menuService.ListMenu(ctx, req)
+func (u *Menu) ListTreeMenus(ctx context.Context, req *vmenu.ListTReeMenuReq) (res *vmenu.ListTReeMenuRes, err error) {
+	return menuService.ListTreeMenus(ctx, req)
+}
+
+func (u *Menu) ListVueMenus(ctx context.Context, req *vmenu.VueMenuReq) (res *vmenu.VueMenuRes, err error) {
+	return menuService.ListVueMenus(ctx, req)
 }

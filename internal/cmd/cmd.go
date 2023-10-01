@@ -33,8 +33,8 @@ var (
 				)
 				group.Group("/api", func(group *ghttp.RouterGroup) {
 					group.Bind(
-						user.UserCtrl,
-						menu.MenuCtrl,
+						user.Ctrl,
+						menu.Ctrl,
 					)
 				})
 			})

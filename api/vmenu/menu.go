@@ -56,17 +56,27 @@ type DeleteMenuRes struct{}
 	    ]
 	}
 */
+type TreeMenuItem struct {
+	*entity.Menu
+	Children []*TreeMenuItem
+}
+type ListTReeMenuReq struct {
+	g.Meta `tags:"菜单" method:"get" path:"/menu/tree"  sm:"列表" dc:"菜单管理树形列表" `
+}
+type ListTReeMenuRes struct {
+	List []*TreeMenuItem `json:"list"`
+}
 type VueMenuMeta struct {
 	Title string `json:"title"`
 	Icon  string `json:"icon"`
 }
 type VueMenu struct {
-	Path      string      `json:"path"`
-	Name      string      `json:"name"`
-	Component string      `json:"component"`
-	Redirect  string      `json:"redirect"`
-	Meta      VueMenuMeta `json:"meta"`
-	Children  []*VueMenu  `json:"children"`
+	Path      string       `json:"path"`
+	Name      string       `json:"name"`
+	Component string       `json:"component"`
+	Redirect  string       `json:"redirect"`
+	Meta      *VueMenuMeta `json:"meta"`
+	Children  []*VueMenu   `json:"children"`
 }
 type VueMenuReq struct {
 	g.Meta `tags:"菜单" method:"get" path:"/menu/vue"  sm:"列表" dc:"返回给前端做动态路由" `

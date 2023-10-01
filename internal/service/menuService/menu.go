@@ -25,12 +25,7 @@ func AddMenu(ctx context.Context, req *vmenu.AddMenuReq) (res *vmenu.AddMenuRes,
 	return
 }
 
-type TreeMenuItem struct {
-	*entity.Menu
-	Children []*TreeMenuItem
-}
-
-// 从数据库获取所有菜单，再把菜单生成树形结构
+// GetAllMenus 从数据库获取所有菜单，再把菜单生成树形结构
 func GetAllMenus(ctx context.Context) (res []*entity.Menu, err error) {
 	res = make([]*entity.Menu, 0)
 	err = dao.Menu.Ctx(ctx).Scan(&res)
@@ -40,7 +35,8 @@ func GetAllMenus(ctx context.Context) (res []*entity.Menu, err error) {
 	return
 }
 
-func GetTreeMenus(ctx context.Context) (res []*TreeMenuItem, err error) {
+/*树形tree开始*/
+func genTreeMenus(ctx context.Context) (res []*vmenu.TreeMenuItem, err error) {
 	allMenus, err := GetAllMenus(ctx)
 	if err != nil {
 		return nil, err
@@ -50,10 +46,21 @@ func GetTreeMenus(ctx context.Context) (res []*TreeMenuItem, err error) {
 	return
 }
 
-func buildTreeMenus(menus []*entity.Menu, pid int64) (res []*TreeMenuItem) {
+func ListTreeMenus(ctx context.Context, req *vmenu.ListTReeMenuReq) (res *vmenu.ListTReeMenuRes, err error) {
+	res = &vmenu.ListTReeMenuRes{}
+	res.List = make([]*vmenu.TreeMenuItem, 0)
+	menus, err := genTreeMenus(ctx)
+	if err != nil {
+		return nil, err
+	}
+	res.List = append(res.List, menus...)
+	return
+}
+
+func buildTreeMenus(menus []*entity.Menu, pid int64) (res []*vmenu.TreeMenuItem) {
 	for _, menu := range menus {
 		if menu.Pid == pid {
-			var treeMenuItem = &TreeMenuItem{
+			var treeMenuItem = &vmenu.TreeMenuItem{
 				Menu: menu,
 			}
 			treeMenuItem.Children = buildTreeMenus(menus, menu.Id)
@@ -63,30 +70,48 @@ func buildTreeMenus(menus []*entity.Menu, pid int64) (res []*TreeMenuItem) {
 	return res
 }
 
-//  这个方法要查多次数据库，放弃
-/*func ListMenuByLevel(ctx context.Context, pid int64) (res []*TreeMenuItem, err error) {
-	err = dao.Menu.Ctx(ctx).Where(g.Map{
-		menuCols.Pid: pid,
-	}).Scan(&res)
-	if err != nil {
-		return nil, err
+/*树形tree结束*/
+/*vueRouter开始*/
+func genVueMenus(menus []*vmenu.TreeMenuItem) (sources []*vmenu.VueMenu) {
+	for _, men := range menus {
+		var source = new(vmenu.VueMenu)
+		source.Name = men.Name
+		source.Path = men.Path
+		source.Redirect = men.Redirect
+		source.Component = men.Component
+		source.Meta = &vmenu.VueMenuMeta{
+			Title: men.Title,
+			Icon:  men.Icon,
+			/*KeepAlive:  men.KeepAlive == 1,
+			Hidden:     men.Hidden == 1,
+			Sort:       men.Sort,
+			AlwaysShow: men.AlwaysShow == 1,
+			ActiveMenu: men.ActiveMenu,
+			IsRoot:     men.IsRoot == 1,
+			FrameSrc:   men.FrameSrc,
+			//Permissions: men.Permissions,
+			Affix: men.Affix == 1,
+			Type:  men.Type,*/
+		}
+		if len(men.Children) > 0 {
+			source.Children = append(source.Children, genVueMenus(men.Children)...)
+		}
+		sources = append(sources, source)
 	}
 	return
 }
 
-// 递归真是玩不明白
-func TreeMenu(ctx context.Context, pid int64) (res []*TreeMenuItem, err error) {
-	menu, err := ListMenuByLevel(ctx, pid)
+func ListVueMenus(ctx context.Context, req *vmenu.VueMenuReq) (res *vmenu.VueMenuRes, err error) {
+	res = &vmenu.VueMenuRes{}
+	res.List = make([]*vmenu.VueMenu, 0)
+	treeMenus, err := genTreeMenus(ctx)
 	if err != nil {
 		return nil, err
 	}
-	if menu != nil && len(menu) > 0 {
-		for _, item := range menu {
-			item.Children, err = TreeMenu(ctx, item.Id)
-			if err != nil {
-				return nil, err
-			}
-		}
-	}
-	return menu, nil
-}*/
+	vueMenus := genVueMenus(treeMenus)
+
+	res.List = append(res.List, vueMenus...)
+	return
+}
+
+/*vueRouter结束*/

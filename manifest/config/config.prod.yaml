@@ -21,12 +21,16 @@ logger:
 
 gfToken:
   cacheKey: "gfToken:"
+  cacheMode: 2 # 1 gcache  2 redis 3 file
   timeOut: 10800
+  encryptKey: "49c54195e750b04e74a8429b17896586"
   maxRefresh: 5400
   multiLogin: true
-  encryptKey: "49c54195e750b04e74a8429b17896586"
-  cacheMode: 2 # 1 gcache  2 redis 3 file
   globalMiddleware: true
+  loginPath: "/api/login"
+  logoutPath: "/api/logout"
+  authPaths:
+    - "/api"
   excludePaths:
     - "/api/login"
 
@@ -62,8 +66,8 @@ redis:
 
 #casbin配置
 casbin:
-  modelFile: "./resource/casbin/rbac_model.conf"
-  policyFile: "./resource/casbin/rbac_policy.csv"
+  modelFile: "./resource/casbin/model.conf"
+  policyFile: "./resource/casbin/policy.csv"
 
 #消息推送配置
 pusher:

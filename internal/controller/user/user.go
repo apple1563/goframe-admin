@@ -8,7 +8,7 @@ import (
 
 type User struct{}
 
-var UserCtrl = new(User)
+var Ctrl = new(User)
 
 func (u *User) AddUser(ctx context.Context, req *vuser.AddUserReq) (res *vuser.AddUserRes, err error) {
 	return userService.AddUser(ctx, req)
