@@ -25,10 +25,14 @@ func AddMenu(ctx context.Context, req *vmenu.AddMenuReq) (res *vmenu.AddMenuRes,
 	return
 }
 
-// GetAllMenus 从数据库获取所有菜单，再把菜单生成树形结构
-func GetAllMenus(ctx context.Context) (res []*entity.Menu, err error) {
+// getAllMenus 从数据库获取所有菜单，再把菜单生成树形结构
+func getAllMenus(ctx context.Context, excludeTypes ...int) (res []*entity.Menu, err error) {
 	res = make([]*entity.Menu, 0)
-	err = dao.Menu.Ctx(ctx).Scan(&res)
+	if len(excludeTypes) > 0 {
+		err = dao.Menu.Ctx(ctx).WhereNotIn(menuCols.Type, excludeTypes).Scan(&res)
+	} else {
+		err = dao.Menu.Ctx(ctx).Scan(&res)
+	}
 	if err != nil {
 		return nil, err
 	}
@@ -36,8 +40,8 @@ func GetAllMenus(ctx context.Context) (res []*entity.Menu, err error) {
 }
 
 /*树形tree开始*/
-func genTreeMenus(ctx context.Context) (res []*vmenu.TreeMenuItem, err error) {
-	allMenus, err := GetAllMenus(ctx)
+func genTreeMenus(ctx context.Context, excludeTypes ...int) (res []*vmenu.TreeMenuItem, err error) {
+	allMenus, err := getAllMenus(ctx, excludeTypes...)
 	if err != nil {
 		return nil, err
 	}
@@ -71,6 +75,7 @@ func buildTreeMenus(menus []*entity.Menu, pid int64) (res []*vmenu.TreeMenuItem)
 }
 
 /*树形tree结束*/
+
 /*vueRouter开始*/
 func genVueMenus(menus []*vmenu.TreeMenuItem) (sources []*vmenu.VueMenu) {
 	for _, men := range menus {
@@ -104,7 +109,7 @@ func genVueMenus(menus []*vmenu.TreeMenuItem) (sources []*vmenu.VueMenu) {
 func ListVueMenus(ctx context.Context, req *vmenu.VueMenuReq) (res *vmenu.VueMenuRes, err error) {
 	res = &vmenu.VueMenuRes{}
 	res.List = make([]*vmenu.VueMenu, 0)
-	treeMenus, err := genTreeMenus(ctx)
+	treeMenus, err := genTreeMenus(ctx, 3) // type 3 为按钮，不计入
 	if err != nil {
 		return nil, err
 	}
