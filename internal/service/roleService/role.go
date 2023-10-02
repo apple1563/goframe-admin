@@ -56,6 +56,7 @@ func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.Delet
 	if err != nil {
 		return nil, err
 	}
+	//  todo 角色绑定的权限规则，如casbin也要删除
 	return
 }
 
