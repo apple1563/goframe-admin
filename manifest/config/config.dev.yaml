@@ -33,7 +33,7 @@ gfToken:
   loginPath: "/api/login"
   logoutPath: "/api/logout"
   authPaths:
-    - "/api"
+    - "/api/"
   excludePaths:
     - "/api/login"
     - "/api.json"
