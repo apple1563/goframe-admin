@@ -42,5 +42,6 @@ var (
 	ErrMenuPathExists         = gerror.NewCode(gcode.New(-3000, "该path已存在", ""))
 	ErrMenuPathDeleteChildren = gerror.NewCode(gcode.New(-3001, "请先删除该菜单下的所有菜单", ""))
 
-	ErrRolenameExists = gerror.NewCode(gcode.New(-4000, "角色名称已存在", ""))
+	ErrRoleNameExists = gerror.NewCode(gcode.New(-4000, "角色名称已存在", ""))
+	ErrRoleDelete     = gerror.NewCode(gcode.New(-4001, "角色已被用户关联，请将关联用户设为其他角色", ""))
 )

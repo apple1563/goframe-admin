@@ -10,6 +10,7 @@ import (
 )
 
 var roleCols = dao.Role.Columns()
+var userCols = dao.User.Columns()
 
 func AddRole(ctx context.Context, req *vrole.AddRoleReq) (res *vrole.AddRoleRes, err error) {
 	count, err := dao.Role.Ctx(ctx).Where(roleCols.Name, req.Name).Count()
@@ -17,7 +18,7 @@ func AddRole(ctx context.Context, req *vrole.AddRoleReq) (res *vrole.AddRoleRes,
 		return nil, err
 	}
 	if count > 0 {
-		return nil, consts.ErrRolenameExists
+		return nil, consts.ErrRoleNameExists
 	}
 	_, err = dao.Role.Ctx(ctx).Data(g.Map{
 		roleCols.ListOrder: req.ListOrder,
@@ -43,6 +44,14 @@ func UpdateRole(ctx context.Context, req *vrole.UpdateRoleReq) (res *vrole.Updat
 }
 
 func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.DeleteRoleRes, err error) {
+	// 删之前还要判断下这个角色有没有被其他用户绑定
+	count, err := dao.User.Ctx(ctx).Where(userCols.RoleId, req.Id).Count()
+	if err != nil {
+		return nil, err
+	}
+	if count > 0 {
+		return nil, consts.ErrRoleDelete
+	}
 	_, err = dao.Role.Ctx(ctx).Delete()
 	if err != nil {
 		return nil, err
