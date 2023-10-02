@@ -36,7 +36,6 @@ gfToken:
     - "/api/"
   excludePaths:
     - "/api/login"
-    - "/api.json"
 
 # Database.
 database:
