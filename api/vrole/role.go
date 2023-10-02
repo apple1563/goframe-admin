@@ -31,7 +31,7 @@ type ListRoleReq struct {
 }
 type ListRoleRes struct {
 	List []*entity.Role `json:"list"`
-	*vcommon.CommonPageRes
+	vcommon.CommonPageRes
 }
 
 type OneRoleReq struct {

@@ -8,8 +8,8 @@ import (
 )
 
 func TestAdd(t *testing.T) {
-	var req = &vuser.AddReq{
-		Username: "test",
+	var req = &vuser.AddUserReq{
+		Username: "admin",
 		Password: "1",
 	}
 	AddUser(gctx.New(), req)

@@ -37,5 +37,6 @@ func (s *GFToken) New(ctx context.Context, fn GFTokenFunc) *gtoken.GfToken {
 		LoginBeforeFunc:  fn.LoginBeforeFunc,
 		AuthAfterFunc:    fn.AuthAfterFunc,
 	}
+	g.Dump(gfToken)
 	return gfToken
 }
