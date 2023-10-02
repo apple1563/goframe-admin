@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"goframe-starter/internal/controller/menu"
+	"goframe-starter/internal/controller/role"
 	"goframe-starter/internal/controller/user"
 	"goframe-starter/internal/middleware"
 	"goframe-starter/internal/service/gtokenService"
@@ -14,7 +15,6 @@ import (
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
-	"goframe-starter/internal/controller/hello"
 )
 
 var (
@@ -28,13 +28,11 @@ var (
 			xcasbin.CreateCasbinEnforcer(ctx)
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
-				group.Bind(
-					hello.New(),
-				)
 				group.Group("/api", func(group *ghttp.RouterGroup) {
 					group.Bind(
 						user.Ctrl,
 						menu.Ctrl,
+						role.Ctrl,
 					)
 				})
 			})

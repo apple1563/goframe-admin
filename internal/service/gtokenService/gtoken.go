@@ -7,7 +7,6 @@ import (
 	"github.com/gogf/gf/v2/net/ghttp"
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
-	"goframe-starter/utility/xcasbin"
 	"goframe-starter/utility/xpwd"
 )
 
@@ -38,7 +37,7 @@ func (*GFtokenFn) LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 		r.ExitAll()
 	}
 	if count < 1 {
-		r.Response.WriteJson(gtoken.Fail("ACCOUNT ERROR."))
+		r.Response.WriteJson(gtoken.Fail("ACCOUNT NOT EXISTED."))
 		r.ExitAll()
 	}
 	if !xpwd.ComparePassword(user.Password, password) {
@@ -46,11 +45,11 @@ func (*GFtokenFn) LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 		r.ExitAll()
 	}
 	//  判断角色有无登录后台权限
-	enforce, _ := xcasbin.Enforcer.Enforce(user.RoleId, r.URL.Path, r.Method)
+	/*enforce, _ := xcasbin.Enforcer.Enforce(user.RoleId, r.URL.Path, r.Method)
 	if !enforce {
 		r.Response.WriteJson(gtoken.Fail("ACCOUNT ROLE ERROR."))
 		r.ExitAll()
-	}
+	}*/
 	// 写入登录日志
 	var loginLogCols = dao.LoginLog.Columns()
 	_, err = dao.LoginLog.Ctx(ctx).Data(g.Map{
@@ -93,15 +92,14 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	}
 	r.SetCtxVar("userInfo", userInfo)
 	//  登录校验后  casbin权限校验
-	//enforce, _ := xcasbin.Cb.Enforce(username, path, method)
-	enforce, _ := xcasbin.Enforcer.Enforce(userInfo.RoleId, r.URL.Path, r.Method)
+	/*enforce, _ := xcasbin.Enforcer.Enforce(userInfo.RoleId, r.URL.Path, r.Method)
 	if !enforce {
 		respData.Code = -403
 		respData.Data = "未授权"
 		r.Response.Status = 403
 		r.Response.WriteJsonExit(respData)
 		return
-	}
+	}*/
 
 	r.Middleware.Next()
 	//elapsedTime := time.Since(timeStart)

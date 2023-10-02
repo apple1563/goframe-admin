@@ -2,6 +2,7 @@ package menuService
 
 import (
 	"context"
+	"github.com/gogf/gf/v2/frame/g"
 	"goframe-starter/api/vmenu"
 	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
@@ -19,6 +20,51 @@ func AddMenu(ctx context.Context, req *vmenu.AddMenuReq) (res *vmenu.AddMenuRes,
 		return nil, consts.ErrMenuPathExists
 	}
 	_, err = dao.Menu.Ctx(ctx).Data(req).Insert()
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+func DeleteMenu(ctx context.Context, req *vmenu.DeleteMenuReq) (res *vmenu.DeleteMenuRes, err error) {
+	count, err := dao.Menu.Ctx(ctx).Where(menuCols.Pid, req.Id).Count()
+	if err != nil {
+		return nil, err
+	}
+	if count > 0 {
+		return nil, consts.ErrMenuPathDeleteChildren
+	}
+	_, err = dao.Menu.Ctx(ctx).Where(menuCols.Id, req.Id).Delete()
+	if err != nil {
+		return nil, err
+	}
+	// TODO 删除关联的casbin，删除角色与菜单关联
+	return
+}
+func UpdateMenu(ctx context.Context, req *vmenu.UpdateMenuReq) (res *vmenu.UpdateMenuRes, err error) {
+	_, err = dao.Menu.Ctx(ctx).Where(menuCols.Id, req.Id).Data(g.Map{
+		menuCols.Pid:            req.Pid,
+		menuCols.Title:          req.Title,
+		menuCols.Name:           req.Name,
+		menuCols.Path:           req.Path,
+		menuCols.Icon:           req.Icon,
+		menuCols.Type:           req.Type,
+		menuCols.Redirect:       req.Redirect,
+		menuCols.Permissions:    req.Permissions,
+		menuCols.PermissionName: req.PermissionName,
+		menuCols.Component:      req.Component,
+		menuCols.AlwaysShow:     req.AlwaysShow,
+		menuCols.ActiveMenu:     req.ActiveMenu,
+		menuCols.IsRoot:         req.IsRoot,
+		menuCols.IsFrame:        req.IsFrame,
+		menuCols.FrameSrc:       req.FrameSrc,
+		menuCols.KeepAlive:      req.KeepAlive,
+		menuCols.Hidden:         req.Hidden,
+		menuCols.Affix:          req.Affix,
+		menuCols.Level:          req.Level,
+		menuCols.Tree:           req.Tree,
+		menuCols.Sort:           req.Sort,
+		menuCols.Status:         req.Status,
+	}).Update()
 	if err != nil {
 		return nil, err
 	}

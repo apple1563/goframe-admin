@@ -30,7 +30,7 @@ type ListMenuRes struct {
 
 type DeleteMenuReq struct {
 	g.Meta `tags:"菜单" method:"delete" path:"/menu"  sm:"删除" dc:"删除菜单" `
-	Id     int64 `json:"id"             description:"菜单ID"`
+	Id     int64 `json:"id" v:"required" description:"菜单ID"`
 }
 type DeleteMenuRes struct{}
 
