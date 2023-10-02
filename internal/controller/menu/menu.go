@@ -14,6 +14,14 @@ func (u *Menu) AddMenu(ctx context.Context, req *vmenu.AddMenuReq) (res *vmenu.A
 	return menuService.AddMenu(ctx, req)
 }
 
+func (u *Menu) DeleteMenu(ctx context.Context, req *vmenu.DeleteMenuReq) (res *vmenu.DeleteMenuRes, err error) {
+	return menuService.DeleteMenu(ctx, req)
+}
+
+func (u *Menu) UpdateMenu(ctx context.Context, req *vmenu.UpdateMenuReq) (res *vmenu.UpdateMenuRes, err error) {
+	return menuService.UpdateMenu(ctx, req)
+}
+
 func (u *Menu) ListTreeMenus(ctx context.Context, req *vmenu.ListTReeMenuReq) (res *vmenu.ListTReeMenuRes, err error) {
 	return menuService.ListTreeMenus(ctx, req)
 }

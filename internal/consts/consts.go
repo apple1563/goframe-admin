@@ -8,6 +8,8 @@ import (
 var (
 	ErrTryAgain       = gerror.NewCode(gcode.New(-4, "失败请重试", ""))
 	ErrRepeatedSubmit = gerror.NewCode(gcode.New(-5, "请不要重复提交", ""))
+	ErrSql            = gerror.NewCode(gcode.New(-6, "sql执行异常", ""))
+	ErrCaptcha        = gerror.NewCode(gcode.New(-8, "验证码错误", ""))
 
 	ErrLogin            = gerror.NewCode(gcode.New(-100, "用户名或密码错误", ""))
 	ErrPassEmpty        = gerror.NewCode(gcode.New(-101, "密码不能为空", ""))
@@ -26,7 +28,6 @@ var (
 	ErrPhoneEmpty       = gerror.NewCode(gcode.New(-120, "手机号不能为空", ""))
 	ErrPhoneLength5     = gerror.NewCode(gcode.New(-121, "手机号长度最小5位数", ""))
 	ErrUsernameExists   = gerror.NewCode(gcode.New(-122, "用户名已存在", ""))
-	ErrCaptcha          = gerror.NewCode(gcode.New(-8, "验证码错误", ""))
 
 	ErrDepositClosed    = gerror.NewCode(gcode.New(-1000, "充值通道已关闭", ""))
 	ErrDepositIncorrect = gerror.NewCode(gcode.New(-1001, "充值金额不正确", ""))
@@ -37,5 +38,7 @@ var (
 	ErrWithdrawBindAccount = gerror.NewCode(gcode.New(-2002, "请先绑定提现账号", ""))
 	ErrWithdrawMin         = gerror.NewCode(gcode.New(-2003, "低于最低提现额度", ""))
 	ErrBindBankcard        = gerror.NewCode(gcode.New(-2004, "您已绑定过银行卡", ""))
-	ErrMenuPathExists      = gerror.NewCode(gcode.New(-3000, "该path已存在", ""))
+
+	ErrMenuPathExists         = gerror.NewCode(gcode.New(-3000, "该path已存在", ""))
+	ErrMenuPathDeleteChildren = gerror.NewCode(gcode.New(-3001, "请先删除该菜单下的所有菜单", ""))
 )
