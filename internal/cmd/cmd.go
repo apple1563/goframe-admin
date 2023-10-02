@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"goframe-starter/internal/controller/menu"
+	"goframe-starter/internal/controller/role"
 	"goframe-starter/internal/controller/user"
 	"goframe-starter/internal/middleware"
 	"goframe-starter/internal/service/gtokenService"
@@ -35,6 +36,7 @@ var (
 					group.Bind(
 						user.Ctrl,
 						menu.Ctrl,
+						role.Ctrl,
 					)
 				})
 			})
