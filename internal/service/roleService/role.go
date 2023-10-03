@@ -53,7 +53,7 @@ func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.Delet
 	if count > 0 {
 		return nil, consts.ErrRoleDelete
 	}
-	_, err = dao.Role.Ctx(ctx).Delete()
+	_, err = dao.Role.Ctx(ctx).WherePri(req.Id).Delete()
 	if err != nil {
 		return nil, err
 	}
@@ -68,13 +68,15 @@ func ListRole(ctx context.Context, req *vrole.ListRoleReq) (res *vrole.ListRoleR
 	}
 	var data = g.Map{}
 	if req.Name != "" {
-		data[roleCols.Name+" like ?"] = req.Name
+		data[roleCols.Name+" like ?"] = "%" + req.Name + "%"
 	}
 	if req.Id != 0 {
 		data[roleCols.Id] = req.Id
 	}
 	var model = dao.Role.Ctx(ctx).Where(data)
 	if req.Size != 0 {
+		resp.Page = req.Page
+		resp.Size = req.Size
 		model = model.Page(req.Page, req.Size)
 	}
 	err = model.ScanAndCount(&resp.List, &resp.Total, false)
