@@ -34,31 +34,9 @@ type DeleteMenuReq struct {
 }
 type DeleteMenuRes struct{}
 
-/*
-	{
-	    "path": "/list",
-	    "name": "list",
-	    "component": "LAYOUT",
-	    "redirect": "/list/base",
-	    "meta": {
-	        "title": "列表页",
-	        "icon": "view-list"
-	    },
-	    "children": [
-	        {
-	            "path": "base",
-	            "name": "ListBase",
-	            "component": "/list/base/index",
-	            "meta": {
-	                "title": "基础列表页"
-	            }
-	        },
-	    ]
-	}
-*/
 type TreeMenuItem struct {
 	*entity.Menu
-	Children []*TreeMenuItem
+	Children []*TreeMenuItem `json:"children"`
 }
 type ListTReeMenuReq struct {
 	g.Meta `tags:"菜单" method:"get" path:"/menu/tree"  sm:"列表" dc:"菜单管理树形列表" `
