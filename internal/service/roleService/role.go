@@ -3,6 +3,7 @@ package roleService
 import (
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
+	"goframe-starter/api/vcommon"
 	"goframe-starter/api/vrole"
 	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
@@ -61,14 +62,22 @@ func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.Delet
 }
 
 func ListRole(ctx context.Context, req *vrole.ListRoleReq) (res *vrole.ListRoleRes, err error) {
-	var resp = &vrole.ListRoleRes{}
-	resp.List = make([]*entity.Role, 0)
-	resp.Size = req.Size
-	resp.Page = req.Page
-	err = dao.Role.Ctx(ctx).Where(g.Map{
-		roleCols.Name + " like ?": req.Name,
-		roleCols.Id:               req.Id,
-	}).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
+	var resp = &vrole.ListRoleRes{
+		List:          make([]*entity.Role, 0),
+		CommonPageRes: &vcommon.CommonPageRes{},
+	}
+	var data = g.Map{}
+	if req.Name != "" {
+		data[roleCols.Name+" like ?"] = req.Name
+	}
+	if req.Id != 0 {
+		data[roleCols.Id] = req.Id
+	}
+	var model = dao.Role.Ctx(ctx).Where(data)
+	if req.Size != 0 {
+		model = model.Page(req.Page, req.Size)
+	}
+	err = model.ScanAndCount(&resp.List, &resp.Total, false)
 	if err != nil {
 		return nil, err
 	}
