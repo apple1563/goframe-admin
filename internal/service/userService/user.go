@@ -3,6 +3,7 @@ package userService
 import (
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 	"goframe-starter/api/vuser"
 	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
@@ -47,4 +48,12 @@ func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserR
 		return nil, err
 	}
 	return resp, nil
+}
+
+func UserInfo(ctx context.Context, req *vuser.UserInfoReq) (res *vuser.UserInfoRes, err error) {
+	err = gconv.Scan(ctx.Value("userInfo"), &res)
+	if err != nil {
+		return nil, err
+	}
+	return
 }

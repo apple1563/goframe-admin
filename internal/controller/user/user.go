@@ -17,3 +17,7 @@ func (u *User) AddUser(ctx context.Context, req *vuser.AddUserReq) (res *vuser.A
 func (u *User) ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserRes, err error) {
 	return userService.ListUser(ctx, req)
 }
+
+func (u *User) UserInfo(ctx context.Context, req *vuser.UserInfoReq) (res *vuser.UserInfoRes, err error) {
+	return userService.UserInfo(ctx, req)
+}

@@ -3,11 +3,13 @@ package roleService
 import (
 	"context"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/util/gconv"
 	"goframe-starter/api/vcommon"
 	"goframe-starter/api/vrole"
 	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
+	"goframe-starter/utility/xcasbin"
 )
 
 var roleCols = dao.Role.Columns()
@@ -57,7 +59,12 @@ func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.Delet
 	if err != nil {
 		return nil, err
 	}
-	//  todo 角色绑定的权限规则，如casbin也要删除
+	//  角色绑定的权限规则，如casbin也要删除
+	var sub = "role-menu " + gconv.String(req.Id)
+	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub)
+	if err != nil {
+		return nil, err
+	}
 	return
 }
 

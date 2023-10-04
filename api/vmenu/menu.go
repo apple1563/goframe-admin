@@ -62,3 +62,20 @@ type VueMenuReq struct {
 type VueMenuRes struct {
 	List []*VueMenu `json:"list"`
 }
+
+type MenuForRoleReq struct {
+	g.Meta  `tags:"菜单" method:"post" path:"/menu/role"  sm:"角色绑定菜单" dc:"为角色绑定菜单" `
+	RoleId  uint  `json:"roleId"`
+	MenuIds []int `json:"menuIds"`
+}
+
+type MenuForRoleRes struct{}
+
+type MenuByRoleReq struct {
+	g.Meta `tags:"菜单" method:"get" path:"/menu/role"  sm:"角色绑定菜单" dc:"获取角色绑定的菜单" `
+	RoleId uint `json:"roleId"`
+}
+
+type MenuByRoleRes struct {
+	List []int `json:"list"`
+}

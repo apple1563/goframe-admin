@@ -29,3 +29,11 @@ func (u *Menu) ListTreeMenus(ctx context.Context, req *vmenu.ListTReeMenuReq) (r
 func (u *Menu) ListVueMenus(ctx context.Context, req *vmenu.VueMenuReq) (res *vmenu.VueMenuRes, err error) {
 	return menuService.ListVueMenus(ctx, req)
 }
+
+func (u *Menu) AddMenuForRole(ctx context.Context, req *vmenu.MenuForRoleReq) (res *vmenu.MenuForRoleRes, err error) {
+	return menuService.AddMenuForRole(ctx, req)
+}
+
+func (u *Menu) GetMenuByRole(ctx context.Context, req *vmenu.MenuByRoleReq) (res *vmenu.MenuByRoleRes, err error) {
+	return menuService.GetMenuByRole(ctx, req)
+}

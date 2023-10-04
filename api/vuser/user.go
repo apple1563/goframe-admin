@@ -23,3 +23,9 @@ type ListUserRes struct {
 	List []*entity.User `json:"list"`
 	*vcommon.CommonPageRes
 }
+
+type UserInfoReq struct {
+	g.Meta `tags:"用户" method:"get" path:"/user/info"  sm:"用户信息" dc:"获取当前登录用户信息" `
+	//Id     uint `json:"id"  v:"required"  description:""`
+}
+type UserInfoRes entity.User

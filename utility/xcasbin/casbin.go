@@ -17,6 +17,7 @@ func CreateCasbinEnforcer(ctx context.Context) {
 		Table:    "casbin_policy",
 		Link:     g.Cfg().MustGet(ctx, "database.default.link").String(),
 	})
+
 	if err != nil {
 		panic(err)
 	}
