@@ -21,7 +21,7 @@ type MenuDao struct {
 // MenuColumns defines and stores column names for table menu.
 type MenuColumns struct {
 	Id             string // 菜单ID
-	Pid            string // 父菜单ID
+	Pid            string // 父菜单ID，0表示根级
 	Title          string // 菜单名称
 	Name           string // 名称编码
 	Path           string // 路由地址
@@ -39,7 +39,7 @@ type MenuColumns struct {
 	KeepAlive      string // 缓存该路由
 	Hidden         string // 是否隐藏
 	Affix          string // 是否固定
-	Level          string // 关系树等级
+	Level          string // 关系树等级 1根2子3孙
 	Tree           string // 关系树
 	Sort           string // 排序
 	Remark         string // 备注

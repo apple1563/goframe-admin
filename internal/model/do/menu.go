@@ -13,7 +13,7 @@ import (
 type Menu struct {
 	g.Meta         `orm:"table:menu, do:true"`
 	Id             interface{} // 菜单ID
-	Pid            interface{} // 父菜单ID
+	Pid            interface{} // 父菜单ID，0表示根级
 	Title          interface{} // 菜单名称
 	Name           interface{} // 名称编码
 	Path           interface{} // 路由地址
@@ -31,7 +31,7 @@ type Menu struct {
 	KeepAlive      interface{} // 缓存该路由
 	Hidden         interface{} // 是否隐藏
 	Affix          interface{} // 是否固定
-	Level          interface{} // 关系树等级
+	Level          interface{} // 关系树等级 1根2子3孙
 	Tree           interface{} // 关系树
 	Sort           interface{} // 排序
 	Remark         interface{} // 备注

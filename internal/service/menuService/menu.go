@@ -35,11 +35,23 @@ func DeleteMenu(ctx context.Context, req *vmenu.DeleteMenuReq) (res *vmenu.Delet
 	if count > 0 {
 		return nil, consts.ErrMenuPathDeleteChildren
 	}
+	count, err = dao.Button.Ctx(ctx).Where(dao.Button.Columns().MenuId, req.Id).Count()
+	if err != nil {
+		return nil, err
+	}
+	if count > 0 {
+		return nil, consts.ErrMenuPathDeleteChildren
+	}
 	_, err = dao.Menu.Ctx(ctx).Where(menuCols.Id, req.Id).Delete()
 	if err != nil {
 		return nil, err
 	}
-	// TODO 删除关联的casbin，删除角色与菜单关联
+	// 删除关联的casbin，删除角色与菜单关联
+	var obj = "菜单" + gconv.String(req.Id)
+	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(1, obj)
+	if err != nil {
+		return nil, err
+	}
 	return
 }
 func AddMenuForRole(ctx context.Context, req *vmenu.MenuForRoleReq) (res *vmenu.MenuForRoleRes, err error) {

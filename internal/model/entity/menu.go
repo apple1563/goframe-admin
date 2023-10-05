@@ -11,7 +11,7 @@ import (
 // Menu is the golang structure for table menu.
 type Menu struct {
 	Id             int64       `json:"id"             description:"菜单ID"`
-	Pid            int64       `json:"pid"            description:"父菜单ID"`
+	Pid            int64       `json:"pid"            description:"父菜单ID，0表示根级"`
 	Title          string      `json:"title"          description:"菜单名称"`
 	Name           string      `json:"name"           description:"名称编码"`
 	Path           string      `json:"path"           description:"路由地址"`
@@ -29,7 +29,7 @@ type Menu struct {
 	KeepAlive      int         `json:"keepAlive"      description:"缓存该路由"`
 	Hidden         int         `json:"hidden"         description:"是否隐藏"`
 	Affix          int         `json:"affix"          description:"是否固定"`
-	Level          int         `json:"level"          description:"关系树等级"`
+	Level          int         `json:"level"          description:"关系树等级 1根2子3孙"`
 	Tree           string      `json:"tree"           description:"关系树"`
 	Sort           int         `json:"sort"           description:"排序"`
 	Remark         string      `json:"remark"         description:"备注"`
