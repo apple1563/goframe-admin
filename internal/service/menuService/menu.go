@@ -14,7 +14,10 @@ import (
 var menuCols = dao.Menu.Columns()
 
 func AddMenu(ctx context.Context, req *vmenu.AddMenuReq) (res *vmenu.AddMenuRes, err error) {
-	count, err := dao.Menu.Ctx(ctx).Where(menuCols.Path, req.Path).Count()
+	count, err := dao.Menu.Ctx(ctx).Where(g.Map{
+		menuCols.Path: req.Path,
+		menuCols.Pid:  req.Pid,
+	}).Count()
 	if err != nil {
 		return nil, err
 	}
