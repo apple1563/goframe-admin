@@ -25,6 +25,7 @@ type ButtonColumns struct {
 	MenuTitle string // 按钮所在菜单名称
 	Name      string // 按钮标识符
 	Title     string // 按钮名称
+	Remark    string //
 }
 
 // buttonColumns holds the columns for table button.
@@ -34,6 +35,7 @@ var buttonColumns = ButtonColumns{
 	MenuTitle: "menu_title",
 	Name:      "name",
 	Title:     "title",
+	Remark:    "remark",
 }
 
 // NewButtonDao creates and returns a new DAO object for table data access.

@@ -16,4 +16,5 @@ type Button struct {
 	MenuTitle interface{} // 按钮所在菜单名称
 	Name      interface{} // 按钮标识符
 	Title     interface{} // 按钮名称
+	Remark    interface{} //
 }

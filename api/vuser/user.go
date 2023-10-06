@@ -13,6 +13,17 @@ type AddUserReq struct {
 	RoleId   int    `json:"roleId"        description:"1用户2代理3管理"`
 }
 type AddUserRes struct{}
+type DeleteUserReq struct {
+	g.Meta `tags:"用户" method:"delete" path:"/user"  sm:"添加" dc:"删除用户" `
+	Id     uint `json:"id" v:"required" description:""`
+}
+type DeleteUserRes struct{}
+
+type UpdateUserReq struct {
+	g.Meta `tags:"用户" method:"put" path:"/user"  sm:"修改" dc:"更新用户" `
+	*entity.User
+}
+type UpdateUserRes struct{}
 
 type ListUserReq struct {
 	g.Meta `tags:"用户" method:"get" path:"/user/list"  sm:"列表" dc:"用来列表" `
@@ -24,8 +35,28 @@ type ListUserRes struct {
 	*vcommon.CommonPageRes
 }
 
+type OneUserReq struct {
+	g.Meta `tags:"用户" method:"get" path:"/user"  sm:"单个" dc:"用户" `
+	Id     uint `json:"id" v:"required" description:""`
+}
+type OneUserRes *entity.User
+
 type UserInfoReq struct {
 	g.Meta `tags:"用户" method:"get" path:"/user/info"  sm:"用户信息" dc:"获取当前登录用户信息" `
 	//Id     uint `json:"id"  v:"required"  description:""`
 }
 type UserInfoRes entity.User
+
+// TreeListUserReq 上下级树
+type TreeListUserReq struct {
+	g.Meta `tags:"用户" method:"get" path:"/user/tree"  sm:"单个" dc:"用户树" `
+}
+
+type TreeNodeUser struct {
+	*entity.User
+	Children []*TreeNodeUser `json:"children"`
+}
+
+type TreeListUserRes struct {
+	List []*TreeNodeUser `json:"list"`
+}

@@ -19,7 +19,7 @@ type DeleteButtonReq struct {
 type DeleteButtonRes struct{}
 
 type UpdateButtonReq struct {
-	g.Meta `tags:"按钮" method:"put" path:"/button"  sm:"添加" dc:"更新按钮" `
+	g.Meta `tags:"按钮" method:"put" path:"/button"  sm:"修改" dc:"更新按钮" `
 	*entity.Button
 }
 type UpdateButtonRes struct{}

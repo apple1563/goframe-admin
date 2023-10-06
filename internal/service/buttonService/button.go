@@ -13,10 +13,12 @@ import (
 )
 
 var buttonCols = dao.Button.Columns()
-var userCols = dao.User.Columns()
 
 func AddButton(ctx context.Context, req *vbutton.AddButtonReq) (res *vbutton.AddButtonRes, err error) {
-	count, err := dao.Button.Ctx(ctx).Where(buttonCols.Name, req.Name).Count()
+	count, err := dao.Button.Ctx(ctx).Where(g.Map{
+		buttonCols.Name:   req.Name,
+		buttonCols.MenuId: req.MenuId,
+	}).Count()
 	if err != nil {
 		return nil, err
 	}
@@ -28,6 +30,7 @@ func AddButton(ctx context.Context, req *vbutton.AddButtonReq) (res *vbutton.Add
 		buttonCols.MenuTitle: req.MenuTitle,
 		buttonCols.Name:      req.Name,
 		buttonCols.Title:     req.Title,
+		buttonCols.Remark:    req.Remark,
 	}).Insert()
 	if err != nil {
 		return nil, err
@@ -41,6 +44,7 @@ func UpdateButton(ctx context.Context, req *vbutton.UpdateButtonReq) (res *vbutt
 		buttonCols.MenuTitle: req.MenuTitle,
 		buttonCols.Name:      req.Name,
 		buttonCols.Title:     req.Title,
+		buttonCols.Remark:    req.Remark,
 	}).Update()
 	if err != nil {
 		return nil, err

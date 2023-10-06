@@ -32,6 +32,30 @@ func AddUser(ctx context.Context, req *vuser.AddUserReq) (res *vuser.AddUserRes,
 	return
 }
 
+func DeleteUser(ctx context.Context, req *vuser.DeleteUserReq) (res *vuser.DeleteUserRes, err error) {
+	_, err = dao.User.Ctx(ctx).WherePri(req.Id).Delete()
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func UpdateUser(ctx context.Context, req *vuser.UpdateUserReq) (res *vuser.UpdateUserRes, err error) {
+	_, err = dao.User.Ctx(ctx).Where(userCols.Id, req.Id).Data(g.Map{
+		userCols.Password: req.Password,
+		userCols.Nickname: req.Nickname,
+		userCols.Email:    req.Email,
+		userCols.Phone:    req.Phone,
+		userCols.Status:   req.Status,
+		userCols.RoleId:   req.RoleId,
+		userCols.RoleName: req.RoleName,
+	}).Update()
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
 func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserRes, err error) {
 	var resp = &vuser.ListUserRes{}
 	resp.List = make([]*entity.User, 0)
@@ -50,10 +74,45 @@ func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserR
 	return resp, nil
 }
 
+func OneUser(ctx context.Context, req *vuser.OneUserReq) (res *vuser.OneUserRes, err error) {
+	err = dao.User.Ctx(ctx).Where(userCols.Id, req.Id).Scan(&res)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
 func UserInfo(ctx context.Context, req *vuser.UserInfoReq) (res *vuser.UserInfoRes, err error) {
 	err = gconv.Scan(ctx.Value("userInfo"), &res)
 	if err != nil {
 		return nil, err
 	}
 	return
+}
+
+func TreeListUser(ctx context.Context, req *vuser.TreeListUserReq) (res *vuser.TreeListUserRes, err error) {
+	var allUsers = make([]*entity.User, 0)
+	err = dao.User.Ctx(ctx).Scan(&allUsers)
+	if err != nil {
+		return nil, err
+	}
+	var result = &vuser.TreeListUserRes{
+		List: genTreeList(allUsers, 0),
+	}
+	return result, nil
+}
+
+// tool
+func genTreeList(list []*entity.User, pid int) []*vuser.TreeNodeUser {
+	res := make([]*vuser.TreeNodeUser, 0)
+	for _, user := range list {
+		if gconv.Int(user.Id) == pid {
+			var u = &vuser.TreeNodeUser{
+				User: user,
+			}
+			u.Children = genTreeList(list, gconv.Int(user.Id))
+			res = append(res, u)
+		}
+	}
+	return res
 }

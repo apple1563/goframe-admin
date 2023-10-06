@@ -41,7 +41,7 @@ type TreeMenuItem struct {
 type ListTReeMenuReq struct {
 	g.Meta `tags:"菜单" method:"get" path:"/menu/tree"  sm:"列表" dc:"菜单管理树形列表" `
 }
-type ListTReeMenuRes struct {
+type ListTreeMenuRes struct {
 	List []*TreeMenuItem `json:"list"`
 }
 type VueMenuMeta struct {
