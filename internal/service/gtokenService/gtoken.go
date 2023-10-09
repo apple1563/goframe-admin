@@ -5,6 +5,7 @@ import (
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
 	"goframe-starter/utility/xpwd"
@@ -38,6 +39,15 @@ func (*GFtokenFn) LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	}
 	if count < 1 {
 		r.Response.WriteJson(gtoken.Fail("ACCOUNT NOT EXISTED."))
+		r.ExitAll()
+	}
+	//  根据status判断用户可否登录
+	if user.Status == consts.USER_STATUS_DEAD {
+		r.Response.WriteJson(consts.ErrUserDead)
+		r.ExitAll()
+	}
+	if user.Status == consts.USER_STATUS_DISABLE {
+		r.Response.WriteJson(consts.ErrUserDisable)
 		r.ExitAll()
 	}
 	if !xpwd.ComparePassword(user.Password, password) {
@@ -91,6 +101,9 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		return
 	}
 	r.SetCtxVar("userInfo", userInfo)
+	r.SetCtxVar("uid", userInfo.Id)
+	r.SetCtxVar("pid", userInfo.Pid)
+	r.SetCtxVar("roleId", userInfo.RoleId)
 	//  登录校验后  casbin权限校验
 	/*enforce, _ := xcasbin.Enforcer.Enforce(userInfo.RoleId, r.URL.Path, r.Method)
 	if !enforce {

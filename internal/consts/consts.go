@@ -9,6 +9,7 @@ var (
 	ErrTryAgain       = gerror.NewCode(gcode.New(-4, "失败请重试", ""))
 	ErrRepeatedSubmit = gerror.NewCode(gcode.New(-5, "请不要重复提交", ""))
 	ErrSql            = gerror.NewCode(gcode.New(-6, "sql执行异常", ""))
+	ErrTypeAssertion  = gerror.NewCode(gcode.New(-7, "类型断言错误", ""))
 	ErrCaptcha        = gerror.NewCode(gcode.New(-8, "验证码错误", ""))
 
 	ErrLogin            = gerror.NewCode(gcode.New(-100, "用户名或密码错误", ""))
@@ -24,10 +25,13 @@ var (
 	ErrIconEmpty        = gerror.NewCode(gcode.New(-110, "图片不能为空", ""))
 	ErrUserDoesNotExist = gerror.NewCode(gcode.New(-111, "用户不存在", ""))
 	ErrBalance          = gerror.NewCode(gcode.New(-112, "用户余额错误", ""))
-	ErrAreaCode         = gerror.NewCode(gcode.New(-216, "手机区号错误", ""))
-	ErrPhoneEmpty       = gerror.NewCode(gcode.New(-120, "手机号不能为空", ""))
-	ErrPhoneLength5     = gerror.NewCode(gcode.New(-121, "手机号长度最小5位数", ""))
-	ErrUsernameExists   = gerror.NewCode(gcode.New(-122, "用户名已存在", ""))
+	ErrUserDead         = gerror.NewCode(gcode.New(-113, "账号已注销", ""))
+	ErrUserDisable      = gerror.NewCode(gcode.New(-114, "账号已禁用", ""))
+
+	ErrAreaCode       = gerror.NewCode(gcode.New(-216, "手机区号错误", ""))
+	ErrPhoneEmpty     = gerror.NewCode(gcode.New(-120, "手机号不能为空", ""))
+	ErrPhoneLength5   = gerror.NewCode(gcode.New(-121, "手机号长度最小5位数", ""))
+	ErrUsernameExists = gerror.NewCode(gcode.New(-122, "用户名已存在", ""))
 
 	ErrDepositClosed    = gerror.NewCode(gcode.New(-1000, "充值通道已关闭", ""))
 	ErrDepositIncorrect = gerror.NewCode(gcode.New(-1001, "充值金额不正确", ""))
@@ -46,3 +50,11 @@ var (
 	ErrRoleNameExists = gerror.NewCode(gcode.New(-4000, "角色名称已存在", ""))
 	ErrRoleDelete     = gerror.NewCode(gcode.New(-4001, "角色已被用户关联，请将关联用户设为其他角色", ""))
 )
+
+const Role_User_Code = 1
+const Role_Agent_Code = 3
+const Role_Admin_Code = 2
+
+const USER_STATUS_ENABLE = 1
+const USER_STATUS_DISABLE = 2
+const USER_STATUS_DEAD = 3

@@ -34,6 +34,6 @@ func (u *User) UserInfo(ctx context.Context, req *vuser.UserInfoReq) (res *vuser
 	return userService.UserInfo(ctx, req)
 }
 
-func (u *User) TreeListUser(ctx context.Context, req *vuser.TreeListUserReq) (res *vuser.TreeListUserRes, err error) {
-	return userService.TreeListUser(ctx, req)
+func (u *User) TreeListUserScope(ctx context.Context, req *vuser.TreeListUserReq) (res *vuser.TreeListUserRes, err error) {
+	return userService.TreeListUserScope(ctx, req)
 }

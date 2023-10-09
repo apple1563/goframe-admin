@@ -100,3 +100,26 @@ func OneRole(ctx context.Context, req *vrole.OneRoleReq) (res *vrole.OneRoleRes,
 	}
 	return
 }
+
+// ListRoleForSelect 添加用户的角色下拉选择框，管理员新增用户可选任意角色。代理新增用户只能选代理和用户两个角色
+func ListRoleForSelect(ctx context.Context, req *vrole.ListRoleForSelectReq) (res *vrole.ListRoleForSelectRes, err error) {
+	var resp = &vrole.ListRoleForSelectRes{
+		List: make([]*entity.Role, 0),
+	}
+	var roleId = gconv.Uint(ctx.Value("roleId"))
+	g.DumpWithType(roleId)
+	//管理员
+	if roleId == consts.Role_Admin_Code {
+		err := dao.Role.Ctx(ctx).WhereNot(roleCols.Id, roleId).Scan(&resp.List)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		//菲管理员用户新增用户只能选自身角色和用户角色，用户角色为1
+		err := dao.Role.Ctx(ctx).WhereIn(roleCols.Id, g.Slice{1, roleId}).Scan(&resp.List)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return resp, nil
+}

@@ -5,11 +5,13 @@ import (
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"goframe-starter/internal/service/gtokenService"
 )
 
 type GFToken struct{}
 
-var MyGtoken = new(GFToken)
+var Gtoken = new(GFToken)
+var MyGtoken *gtoken.GfToken
 
 type GFTokenFunc interface {
 	LoginBeforeFunc(r *ghttp.Request) (string, interface{})
@@ -39,4 +41,12 @@ func (s *GFToken) New(ctx context.Context, fn GFTokenFunc) *gtoken.GfToken {
 	}
 	g.Dump(gfToken)
 	return gfToken
+}
+
+func InitGtoken(ctx context.Context) {
+	MyGtoken = Gtoken.New(ctx, gtokenService.GFtokenFnInstance)
+	err := MyGtoken.Start()
+	if err != nil {
+		panic(err)
+	}
 }

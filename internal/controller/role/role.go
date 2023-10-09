@@ -29,3 +29,7 @@ func (u *Role) ListRole(ctx context.Context, req *vrole.ListRoleReq) (res *vrole
 func (u *Role) OneRole(ctx context.Context, req *vrole.OneRoleReq) (res *vrole.OneRoleRes, err error) {
 	return roleService.OneRole(ctx, req)
 }
+
+func (u *Role) ListRoleForSelect(ctx context.Context, req *vrole.ListRoleForSelectReq) (res *vrole.ListRoleForSelectRes, err error) {
+	return roleService.ListRoleForSelect(ctx, req)
+}

@@ -6,7 +6,7 @@ package entity
 
 // Button is the golang structure for table button.
 type Button struct {
-	Id        int    `json:"id"        description:""`
+	Id        uint   `json:"id"        description:""`
 	MenuId    int64  `json:"menuId"    description:"按钮所在菜单id"`
 	MenuTitle string `json:"menuTitle" description:"按钮所在菜单名称"`
 	Name      string `json:"name"      description:"按钮标识符"`

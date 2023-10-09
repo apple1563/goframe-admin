@@ -7,7 +7,6 @@ import (
 	"goframe-starter/internal/controller/role"
 	"goframe-starter/internal/controller/user"
 	"goframe-starter/internal/middleware"
-	"goframe-starter/internal/service/gtokenService"
 	"goframe-starter/utility/xcasbin"
 	"goframe-starter/utility/xgtoken"
 
@@ -38,9 +37,7 @@ var (
 					)
 				})
 			})
-			if err := xgtoken.MyGtoken.New(ctx, gtokenService.GFtokenFnInstance).Start(); err != nil {
-				panic(err)
-			}
+			xgtoken.InitGtoken(ctx)
 			s.Run()
 			return nil
 		},

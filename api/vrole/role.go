@@ -39,3 +39,10 @@ type OneRoleReq struct {
 	Id     uint `json:"id" v:"required" description:""`
 }
 type OneRoleRes *entity.Role
+type ListRoleForSelectReq struct {
+	g.Meta `tags:"角色" method:"get" path:"/role/list/select"  sm:"列表" dc:"角色下拉选择框" `
+	//Id     uint `json:"id" v:"required"        description:""`
+}
+type ListRoleForSelectRes struct {
+	List []*entity.Role `json:"list"`
+}
