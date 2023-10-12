@@ -58,3 +58,6 @@ const Role_Admin_Code = 2
 const USER_STATUS_ENABLE = 1
 const USER_STATUS_DISABLE = 2
 const USER_STATUS_DEAD = 3
+
+const Cache_Mode_Memory = 1
+const Cache_Mode_Redis = 2

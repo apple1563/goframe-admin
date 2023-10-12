@@ -138,7 +138,7 @@ func genTreeMenus(ctx context.Context, excludeTypes ...int) (res []*vmenu.TreeMe
 	return
 }
 
-func ListTreeMenus(ctx context.Context, req *vmenu.ListTReeMenuReq) (res *vmenu.ListTreeMenuRes, err error) {
+func ListTreeMenus(ctx context.Context, req *vmenu.ListTreeMenuReq) (res *vmenu.ListTreeMenuRes, err error) {
 	res = &vmenu.ListTreeMenuRes{}
 	res.List = make([]*vmenu.TreeMenuItem, 0)
 	menus, err := genTreeMenus(ctx)

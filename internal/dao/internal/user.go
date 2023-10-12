@@ -26,10 +26,10 @@ type UserColumns struct {
 	Nickname    string //
 	Email       string //
 	Phone       string //
-	Status      string // 1正常2禁用
+	Status      string // 1正常2禁用3注销
 	ClientAgent string // 注册clientAgen头
 	Ip          string // IP
-	RoleId      string // 1用户2代理3管理
+	RoleId      string // 1用户3代理2管理
 	CreatedAt   string //
 	UpdatedAt   string //
 	PRoleId     string //

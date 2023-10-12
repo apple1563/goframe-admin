@@ -8,6 +8,6 @@ package entity
 type UserRelation struct {
 	Id      int  `json:"id"      description:""`
 	PUserId int  `json:"pUserId" description:""`
-	Level   uint `json:"level"   description:""`
+	Level   uint `json:"level"   description:"代理层级"`
 	UserId  uint `json:"userId"  description:""`
 }

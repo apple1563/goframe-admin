@@ -22,7 +22,7 @@ type UserRelationDao struct {
 type UserRelationColumns struct {
 	Id      string //
 	PUserId string //
-	Level   string //
+	Level   string // 代理层级
 	UserId  string //
 }
 

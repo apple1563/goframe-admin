@@ -13,6 +13,6 @@ type UserRelation struct {
 	g.Meta  `orm:"table:user_relation, do:true"`
 	Id      interface{} //
 	PUserId interface{} //
-	Level   interface{} //
+	Level   interface{} // 代理层级
 	UserId  interface{} //
 }

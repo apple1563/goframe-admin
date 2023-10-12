@@ -38,7 +38,7 @@ type TreeMenuItem struct {
 	*entity.Menu
 	Children []*TreeMenuItem `json:"children"`
 }
-type ListTReeMenuReq struct {
+type ListTreeMenuReq struct {
 	g.Meta `tags:"菜单" method:"get" path:"/menu/tree"  sm:"列表" dc:"菜单管理树形列表" `
 }
 type ListTreeMenuRes struct {

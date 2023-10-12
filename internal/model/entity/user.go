@@ -16,10 +16,10 @@ type User struct {
 	Nickname    string      `json:"nickname"    description:""`
 	Email       string      `json:"email"       description:""`
 	Phone       string      `json:"phone"       description:""`
-	Status      int         `json:"status"      description:"1正常2禁用"`
+	Status      int         `json:"status"      description:"1正常2禁用3注销"`
 	ClientAgent string      `json:"clientAgent" description:"注册clientAgen头"`
 	Ip          string      `json:"ip"          description:"IP"`
-	RoleId      int         `json:"roleId"      description:"1用户2代理3管理"`
+	RoleId      int         `json:"roleId"      description:"1用户3代理2管理"`
 	CreatedAt   *gtime.Time `json:"createdAt"   description:""`
 	UpdatedAt   *gtime.Time `json:"updatedAt"   description:""`
 	PRoleId     int         `json:"pRoleId"     description:""`

@@ -7,12 +7,12 @@ import (
 	"time"
 )
 
-func MiddlewareDefaultCORS(r *ghttp.Request) {
+func DefaultCORS(r *ghttp.Request) {
 	r.Response.CORSDefault()
 	r.Middleware.Next()
 }
 
-func MiddlewareRequestIpLimit(r *ghttp.Request) {
+func RequestIpLimit(r *ghttp.Request) {
 	ip := r.GetClientIp()
 	rule := ratelimit.NewRule()
 	rule.AddRule(time.Hour, 10000)

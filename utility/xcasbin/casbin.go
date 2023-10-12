@@ -1,14 +1,15 @@
 package xcasbin
 
 import (
-	"context"
 	"github.com/dobyte/gf-casbin"
 	"github.com/gogf/gf/v2/frame/g"
+	"github.com/gogf/gf/v2/os/gctx"
 )
 
 var Enforcer *casbin.Enforcer
 
-func CreateCasbinEnforcer(ctx context.Context) {
+func Init() {
+	ctx := gctx.New()
 	Enf, err := casbin.NewEnforcer(&casbin.Options{
 		Model:    g.Cfg().MustGet(ctx, "casbin.modelFile").String(),
 		Debug:    false,

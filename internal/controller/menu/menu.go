@@ -22,7 +22,7 @@ func (u *Menu) UpdateMenu(ctx context.Context, req *vmenu.UpdateMenuReq) (res *v
 	return menuService.UpdateMenu(ctx, req)
 }
 
-func (u *Menu) ListTreeMenus(ctx context.Context, req *vmenu.ListTReeMenuReq) (res *vmenu.ListTreeMenuRes, err error) {
+func (u *Menu) ListTreeMenus(ctx context.Context, req *vmenu.ListTreeMenuReq) (res *vmenu.ListTreeMenuRes, err error) {
 	return menuService.ListTreeMenus(ctx, req)
 }
 

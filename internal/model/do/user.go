@@ -18,10 +18,10 @@ type User struct {
 	Nickname    interface{} //
 	Email       interface{} //
 	Phone       interface{} //
-	Status      interface{} // 1正常2禁用
+	Status      interface{} // 1正常2禁用3注销
 	ClientAgent interface{} // 注册clientAgen头
 	Ip          interface{} // IP
-	RoleId      interface{} // 1用户2代理3管理
+	RoleId      interface{} // 1用户3代理2管理
 	CreatedAt   *gtime.Time //
 	UpdatedAt   *gtime.Time //
 	PRoleId     interface{} //

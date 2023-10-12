@@ -21,7 +21,9 @@ logger:
   file: "{Y-m-d}.log"
   level : "all"
   stdout: true
-
+cache:
+  model: 2  #缓存模式  1memory OR 2 redis
+  prefix: "xcache:" #缓存前缀
 gfToken:
   cacheKey: "gfToken:"
   cacheMode: 2 # 1 gcache  2 redis 3 file

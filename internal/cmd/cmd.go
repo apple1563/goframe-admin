@@ -4,9 +4,11 @@ import (
 	"context"
 	"goframe-starter/internal/controller/button"
 	"goframe-starter/internal/controller/menu"
+	"goframe-starter/internal/controller/region"
 	"goframe-starter/internal/controller/role"
 	"goframe-starter/internal/controller/user"
 	"goframe-starter/internal/middleware"
+	"goframe-starter/utility/xcache"
 	"goframe-starter/utility/xcasbin"
 	"goframe-starter/utility/xgtoken"
 
@@ -24,8 +26,9 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server(g.Cfg().MustGet(ctx, "server.name").String())
-			s.BindMiddlewareDefault(middleware.MiddlewareDefaultCORS, middleware.MiddlewareRequestIpLimit)
-			xcasbin.CreateCasbinEnforcer(ctx)
+			s.BindMiddlewareDefault(middleware.DefaultCORS, middleware.RequestIpLimit)
+			xcasbin.Init()
+			xcache.Init()
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Group("/api", func(group *ghttp.RouterGroup) {
@@ -34,6 +37,7 @@ var (
 						menu.Ctrl,
 						role.Ctrl,
 						button.Ctrl,
+						region.Ctrl,
 					)
 				})
 			})
