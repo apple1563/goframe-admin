@@ -20,11 +20,11 @@ type DictDao struct {
 
 // DictColumns defines and stores column names for table dict.
 type DictColumns struct {
-	ConfigId    string // 参数主键
+	Id          string // 参数主键
 	ConfigName  string // 参数名称
 	ConfigKey   string // 参数键名
 	ConfigValue string // 参数键值
-	ConfigType  string // 系统内置（Y是 N否）
+	ConfigType  string // 字典类型
 	CreateBy    string // 创建者
 	UpdateBy    string // 更新者
 	Remark      string // 备注
@@ -34,7 +34,7 @@ type DictColumns struct {
 
 // dictColumns holds the columns for table dict.
 var dictColumns = DictColumns{
-	ConfigId:    "config_id",
+	Id:          "id",
 	ConfigName:  "config_name",
 	ConfigKey:   "config_key",
 	ConfigValue: "config_value",

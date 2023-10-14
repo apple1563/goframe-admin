@@ -10,11 +10,11 @@ import (
 
 // Dict is the golang structure for table dict.
 type Dict struct {
-	ConfigId    uint        `json:"configId"    description:"参数主键"`
+	Id          uint        `json:"id"          description:"参数主键"`
 	ConfigName  string      `json:"configName"  description:"参数名称"`
 	ConfigKey   string      `json:"configKey"   description:"参数键名"`
 	ConfigValue string      `json:"configValue" description:"参数键值"`
-	ConfigType  int         `json:"configType"  description:"系统内置（Y是 N否）"`
+	ConfigType  string      `json:"configType"  description:"字典类型"`
 	CreateBy    uint        `json:"createBy"    description:"创建者"`
 	UpdateBy    uint        `json:"updateBy"    description:"更新者"`
 	Remark      string      `json:"remark"      description:"备注"`

@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"goframe-starter/internal/controller/button"
+	"goframe-starter/internal/controller/dict"
 	"goframe-starter/internal/controller/menu"
 	"goframe-starter/internal/controller/region"
 	"goframe-starter/internal/controller/role"
@@ -38,6 +39,7 @@ var (
 						role.Ctrl,
 						button.Ctrl,
 						region.Ctrl,
+						dict.Ctrl,
 					)
 				})
 			})
