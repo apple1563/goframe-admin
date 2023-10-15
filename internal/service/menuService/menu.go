@@ -50,7 +50,7 @@ func DeleteMenu(ctx context.Context, req *vmenu.DeleteMenuReq) (res *vmenu.Delet
 		return nil, err
 	}
 	// 删除关联的casbin，删除角色与菜单关联
-	var obj = "菜单" + gconv.String(req.Id)
+	var obj = gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(1, obj)
 	if err != nil {
 		return nil, err

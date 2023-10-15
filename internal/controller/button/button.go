@@ -29,3 +29,11 @@ func (u *Button) ListButton(ctx context.Context, req *vbutton.ListButtonReq) (re
 func (u *Button) OneButton(ctx context.Context, req *vbutton.OneButtonReq) (res *vbutton.OneButtonRes, err error) {
 	return buttonService.OneButton(ctx, req)
 }
+
+func (u *Button) AddButtonForRole(ctx context.Context, req *vbutton.ButtonForRoleReq) (res *vbutton.ButtonForRoleRes, err error) {
+	return buttonService.AddButtonForRole(ctx, req)
+}
+
+func (u *Button) GetButtonByRole(ctx context.Context, req *vbutton.ButtonByRoleReq) (res *vbutton.ButtonByRoleRes, err error) {
+	return buttonService.GetButtonByRole(ctx, req)
+}

@@ -39,3 +39,20 @@ type OneButtonReq struct {
 	Id     uint `json:"id" v:"required" description:""`
 }
 type OneButtonRes *entity.Button
+
+type ButtonForRoleReq struct {
+	g.Meta    `tags:"按钮" method:"post" path:"/button/role"  sm:"角色绑定按钮" dc:"为角色绑定按钮" `
+	RoleId    uint  `json:"roleId"`
+	ButtonIds []int `json:"buttonIds"`
+}
+
+type ButtonForRoleRes struct{}
+
+type ButtonByRoleReq struct {
+	g.Meta `tags:"按钮" method:"get" path:"/button/role"  sm:"角色绑定按钮" dc:"获取角色绑定的按钮" `
+	RoleId uint `json:"roleId"`
+}
+
+type ButtonByRoleRes struct {
+	List []int `json:"list"`
+}

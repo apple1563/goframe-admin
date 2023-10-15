@@ -58,7 +58,7 @@ func DeleteButton(ctx context.Context, req *vbutton.DeleteButtonReq) (res *vbutt
 		return nil, err
 	}
 	// 删除关联的casbin，删除角色与按钮关联
-	var obj = "按钮" + gconv.String(req.Id)
+	var obj = gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(1, obj)
 	if err != nil {
 		return nil, err
@@ -103,4 +103,30 @@ func OneButton(ctx context.Context, req *vbutton.OneButtonReq) (res *vbutton.One
 		return nil, err
 	}
 	return
+}
+
+func AddButtonForRole(ctx context.Context, req *vbutton.ButtonForRoleReq) (res *vbutton.ButtonForRoleRes, err error) {
+	var sub = "role-button " + gconv.String(req.RoleId)
+	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub)
+	if err != nil {
+		return nil, err
+	}
+	for _, buttonId := range req.ButtonIds {
+		_, err := xcasbin.Enforcer.AddPolicy(sub, gconv.String(buttonId), "ALL")
+		if err != nil {
+			return nil, err
+		}
+	}
+	return
+}
+func GetButtonByRole(ctx context.Context, req *vbutton.ButtonByRoleReq) (res *vbutton.ButtonByRoleRes, err error) {
+	var sub = "role-button " + gconv.String(req.RoleId)
+	var resp = &vbutton.ButtonByRoleRes{
+		List: make([]int, 0),
+	}
+	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
+	for _, rule := range rules {
+		resp.List = append(resp.List, gconv.Int(rule[1]))
+	}
+	return resp, nil
 }

@@ -65,6 +65,18 @@ func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.Delet
 	if err != nil {
 		return nil, err
 	}
+	//  按钮绑定的权限规则，如casbin也要删除
+	var sub2 = "role-button " + gconv.String(req.Id)
+	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub2)
+	if err != nil {
+		return nil, err
+	}
+	//  api绑定的权限规则，如casbin也要删除
+	var sub3 = "role-api " + gconv.String(req.Id)
+	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub3)
+	if err != nil {
+		return nil, err
+	}
 	return
 }
 
@@ -107,7 +119,6 @@ func ListRoleForSelect(ctx context.Context, req *vrole.ListRoleForSelectReq) (re
 		List: make([]*entity.Role, 0),
 	}
 	var roleId = gconv.Uint(ctx.Value("roleId"))
-	g.DumpWithType(roleId)
 	//管理员
 	if roleId == consts.Role_Admin_Code {
 		err := dao.Role.Ctx(ctx).WhereNot(roleCols.Id, roleId).Scan(&resp.List)
