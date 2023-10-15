@@ -38,6 +38,7 @@ func AddDict(ctx context.Context, req *vdict.AddDictReq) (res *vdict.AddDictRes,
 
 func UpdateDict(ctx context.Context, req *vdict.UpdateDictReq) (res *vdict.UpdateDictRes, err error) {
 	var data = g.Map{}
+	data[dictCols.UpdateBy] = ctx.Value("uid")
 	if req.Remark != "" {
 		data[dictCols.Remark] = req.Remark
 	}
@@ -69,6 +70,7 @@ func DeleteDict(ctx context.Context, req *vdict.DeleteDictReq) (res *vdict.Delet
 }
 
 func ListDict(ctx context.Context, req *vdict.ListDictReq) (res *vdict.ListDictRes, err error) {
+	g.Dump(req)
 	var resp = &vdict.ListDictRes{
 		List:          make([]*entity.Dict, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},

@@ -47,6 +47,15 @@ type ListTreeMenuRes struct {
 type VueMenuMeta struct {
 	Title string `json:"title"`
 	Icon  string `json:"icon"`
+	//expanded boolean
+	OrderNo          int    `json:"orderNo"`
+	Hidden           bool   `json:"hidden"`
+	HiddenBreadcrumb bool   `json:"hiddenBreadcrumb"`
+	Single           bool   `json:"single"`
+	KeepAlive        bool   `json:"keepAlive"`
+	FrameSrc         string `json:"frameSrc"`
+	IsFrame          bool   `json:"isFrame"`
+	Affix            bool   `json:"affix"`
 }
 type VueMenu struct {
 	Path      string       `json:"path"`

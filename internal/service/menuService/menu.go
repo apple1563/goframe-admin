@@ -173,18 +173,20 @@ func genVueMenus(menus []*vmenu.TreeMenuItem) (sources []*vmenu.VueMenu) {
 		source.Redirect = men.Redirect
 		source.Component = men.Component
 		source.Meta = &vmenu.VueMenuMeta{
-			Title: men.Title,
-			Icon:  men.Icon,
-			/*KeepAlive:  men.KeepAlive == 1,
-			Hidden:     men.Hidden == 1,
-			Sort:       men.Sort,
-			AlwaysShow: men.AlwaysShow == 1,
-			ActiveMenu: men.ActiveMenu,
-			IsRoot:     men.IsRoot == 1,
-			FrameSrc:   men.FrameSrc,
-			//Permissions: men.Permissions,
-			Affix: men.Affix == 1,
-			Type:  men.Type,*/
+			Title:            men.Title,
+			Icon:             men.Icon,
+			OrderNo:          men.Sort,
+			Hidden:           men.Hidden == 1,
+			HiddenBreadcrumb: men.AlwaysShow == 1,
+			KeepAlive:        men.KeepAlive == 1,
+			FrameSrc:         men.FrameSrc,
+			IsFrame:          men.IsFrame == 1,
+			Affix:            men.Affix == 1,
+			/*
+				ActiveMenu: men.ActiveMenu,
+				IsRoot:     men.IsRoot == 1,
+				//Permissions: men.Permissions,
+				Type:  men.Type,*/
 		}
 		if len(men.Children) > 0 {
 			source.Children = append(source.Children, genVueMenus(men.Children)...)
