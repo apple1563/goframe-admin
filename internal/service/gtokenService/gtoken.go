@@ -110,6 +110,12 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	r.SetCtxVar("roleId", userInfo.RoleId)
 
 	go func() {
+		var ctx = gctx.New()
+
+		flag := apiService.CheckApiExists(ctx, r.URL.Path, r.Method)
+		if flag {
+			return
+		}
 		//  自动添加api
 		var req = &vapi.AddApiReq{
 			Api: &entity.Api{
@@ -118,7 +124,7 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 				Group:  strings.Join(strings.Split(r.URL.Path, "/")[:3], "/"),
 			},
 		}
-		_, _ = apiService.AddApi(gctx.New(), req)
+		_, _ = apiService.AddApi(ctx, req)
 	}()
 
 	//  登录校验后  casbin权限校验

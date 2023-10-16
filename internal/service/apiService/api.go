@@ -121,3 +121,17 @@ func GetApiByRole(ctx context.Context, req *vapi.ApiByRoleReq) (res *vapi.ApiByR
 	}
 	return resp, nil
 }
+
+func CheckApiExists(ctx context.Context, url string, method string) bool {
+	count, err := dao.Api.Ctx(ctx).Where(g.Map{
+		apiCols.Url:    url,
+		apiCols.Method: method,
+	}).Count()
+	if err != nil {
+		return true
+	}
+	if count > 0 {
+		return true
+	}
+	return false
+}

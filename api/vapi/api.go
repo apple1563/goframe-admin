@@ -43,7 +43,7 @@ type OneApiRes *entity.Api
 type ApiForRoleReq struct {
 	g.Meta `tags:"api" method:"post" path:"/api/role"  sm:"角色绑定api" dc:"为角色绑定api" `
 	RoleId uint          `json:"roleId"`
-	Apis   []*entity.Api `json:"apiIds"`
+	Apis   []*entity.Api `json:"apis"`
 }
 
 type ApiForRoleRes struct{}

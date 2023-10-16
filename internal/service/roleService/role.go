@@ -92,7 +92,7 @@ func ListRole(ctx context.Context, req *vrole.ListRoleReq) (res *vrole.ListRoleR
 	if req.Id != 0 {
 		data[roleCols.Id] = req.Id
 	}
-	var model = dao.Role.Ctx(ctx).Where(data)
+	var model = dao.Role.Ctx(ctx).Where(data).Order(roleCols.ListOrder)
 	if req.Size != 0 {
 		resp.Page = req.Page
 		resp.Size = req.Size
