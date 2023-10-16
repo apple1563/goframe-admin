@@ -56,3 +56,11 @@ type ButtonByRoleReq struct {
 type ButtonByRoleRes struct {
 	List []int `json:"list"`
 }
+
+type ButtonWhitelistReq struct {
+	g.Meta `tags:"按钮" method:"get" path:"/button/whitelist"  sm:"角色绑定按钮" dc:"获取当前角色绑定的按钮" `
+}
+
+type ButtonWhitelistRes struct {
+	List []int `json:"list"`
+}

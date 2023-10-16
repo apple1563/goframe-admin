@@ -60,19 +60,19 @@ func DeleteRole(ctx context.Context, req *vrole.DeleteRoleReq) (res *vrole.Delet
 		return nil, err
 	}
 	//  角色绑定的权限规则，如casbin也要删除
-	var sub = "role-menu " + gconv.String(req.Id)
+	var sub = consts.Role_Menu_Prefix + gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub)
 	if err != nil {
 		return nil, err
 	}
 	//  按钮绑定的权限规则，如casbin也要删除
-	var sub2 = "role-button " + gconv.String(req.Id)
+	var sub2 = consts.Role_Button_Prefix + gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub2)
 	if err != nil {
 		return nil, err
 	}
 	//  api绑定的权限规则，如casbin也要删除
-	var sub3 = "role-api " + gconv.String(req.Id)
+	var sub3 = consts.Role_Api_Prefix + gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub3)
 	if err != nil {
 		return nil, err

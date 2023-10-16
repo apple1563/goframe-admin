@@ -59,7 +59,7 @@ func DeleteMenu(ctx context.Context, req *vmenu.DeleteMenuReq) (res *vmenu.Delet
 	return
 }
 func AddMenuForRole(ctx context.Context, req *vmenu.MenuForRoleReq) (res *vmenu.MenuForRoleRes, err error) {
-	var sub = "role-menu " + gconv.String(req.RoleId)
+	var sub = consts.Role_Menu_Prefix + gconv.String(req.RoleId)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub)
 	if err != nil {
 		return nil, err
@@ -73,15 +73,23 @@ func AddMenuForRole(ctx context.Context, req *vmenu.MenuForRoleReq) (res *vmenu.
 	}
 	return
 }
+func getRoleMenuIds(roleId uint) []int {
+	var sub = consts.Role_Menu_Prefix + gconv.String(roleId)
+	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
+	var res = make([]int, 0)
+	for _, rule := range rules {
+		parts := strings.Split(rule[1], " ")
+		res = append(res, gconv.Int(parts[1]))
+	}
+	return res
+}
 func GetMenuByRole(ctx context.Context, req *vmenu.MenuByRoleReq) (res *vmenu.MenuByRoleRes, err error) {
-	var sub = "role-menu " + gconv.String(req.RoleId)
 	var resp = &vmenu.MenuByRoleRes{
 		List: make([]int, 0),
 	}
-	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
-	for _, rule := range rules {
-		parts := strings.Split(rule[1], " ")
-		resp.List = append(resp.List, gconv.Int(parts[1]))
+	var ids = getRoleMenuIds(req.RoleId)
+	for _, id := range ids {
+		resp.List = append(resp.List, id)
 	}
 	return resp, nil
 }
@@ -117,12 +125,14 @@ func UpdateMenu(ctx context.Context, req *vmenu.UpdateMenuReq) (res *vmenu.Updat
 }
 
 // getAllMenus 从数据库获取所有菜单，再把菜单生成树形结构
-func getAllMenus(ctx context.Context, excludeTypes ...int) (res []*entity.Menu, err error) {
+func getAllMenus(ctx context.Context) (res []*entity.Menu, err error) {
 	res = make([]*entity.Menu, 0)
-	if len(excludeTypes) > 0 {
-		err = dao.Menu.Ctx(ctx).WhereNotIn(menuCols.Type, excludeTypes).Scan(&res)
-	} else {
+	// 超级管理员返回所有菜单，其他角色按权限设置的来
+	var roleId = gconv.Uint(ctx.Value("roleId"))
+	if roleId == 1024 { // 1024为超级管理员
 		err = dao.Menu.Ctx(ctx).Scan(&res)
+	} else {
+		err = dao.Menu.Ctx(ctx).WhereIn(menuCols.Id, getRoleMenuIds(roleId)).Scan(&res)
 	}
 	if err != nil {
 		return nil, err
@@ -131,8 +141,8 @@ func getAllMenus(ctx context.Context, excludeTypes ...int) (res []*entity.Menu, 
 }
 
 /*树形tree开始*/
-func genTreeMenus(ctx context.Context, excludeTypes ...int) (res []*vmenu.TreeMenuItem, err error) {
-	allMenus, err := getAllMenus(ctx, excludeTypes...)
+func genTreeMenus(ctx context.Context) (res []*vmenu.TreeMenuItem, err error) {
+	allMenus, err := getAllMenus(ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -202,7 +212,7 @@ func genVueMenus(menus []*vmenu.TreeMenuItem) (sources []*vmenu.VueMenu) {
 func ListVueMenus(ctx context.Context, req *vmenu.VueMenuReq) (res *vmenu.VueMenuRes, err error) {
 	res = &vmenu.VueMenuRes{}
 	res.List = make([]*vmenu.VueMenu, 0)
-	treeMenus, err := genTreeMenus(ctx, 3) // type 3 为按钮，不计入
+	treeMenus, err := genTreeMenus(ctx) // type 3 为按钮，不计入
 	if err != nil {
 		return nil, err
 	}

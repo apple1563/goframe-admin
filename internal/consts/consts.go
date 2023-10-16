@@ -63,3 +63,8 @@ const USER_STATUS_DEAD = 3
 
 const Cache_Mode_Memory = 1
 const Cache_Mode_Redis = 2
+
+// casbin sub前缀
+const Role_Api_Prefix = "role-api "
+const Role_Menu_Prefix = "role-menu "
+const Role_Button_Prefix = "role-button "

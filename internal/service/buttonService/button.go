@@ -107,7 +107,7 @@ func OneButton(ctx context.Context, req *vbutton.OneButtonReq) (res *vbutton.One
 }
 
 func AddButtonForRole(ctx context.Context, req *vbutton.ButtonForRoleReq) (res *vbutton.ButtonForRoleRes, err error) {
-	var sub = "role-button " + gconv.String(req.RoleId)
+	var sub = consts.Role_Button_Prefix + gconv.String(req.RoleId)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub)
 	if err != nil {
 		return nil, err
@@ -121,15 +121,43 @@ func AddButtonForRole(ctx context.Context, req *vbutton.ButtonForRoleReq) (res *
 	}
 	return
 }
+func getRoleButtonIds(roleId uint) []int {
+	var sub = consts.Role_Button_Prefix + gconv.String(roleId)
+	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
+	var res = make([]int, 0)
+	for _, rule := range rules {
+		parts := strings.Split(rule[1], " ")
+		res = append(res, gconv.Int(parts[1]))
+	}
+	return res
+}
 func GetButtonByRole(ctx context.Context, req *vbutton.ButtonByRoleReq) (res *vbutton.ButtonByRoleRes, err error) {
-	var sub = "role-button " + gconv.String(req.RoleId)
 	var resp = &vbutton.ButtonByRoleRes{
 		List: make([]int, 0),
 	}
-	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
-	for _, rule := range rules {
-		parts := strings.Split(rule[1], " ")
-		resp.List = append(resp.List, gconv.Int(parts[1]))
+	var ids = getRoleButtonIds(req.RoleId)
+	for _, id := range ids {
+		resp.List = append(resp.List, id)
 	}
+	return resp, nil
+}
+func ButtonWhitelist(ctx context.Context, req *vbutton.ButtonWhitelistReq) (res *vbutton.ButtonWhitelistRes, err error) {
+	var resp = &vbutton.ButtonWhitelistRes{
+		List: make([]int, 0),
+	}
+	// 超级管理员返回所有按钮，其他角色按权限设置的来
+	var roleId = gconv.Uint(ctx.Value("roleId"))
+	if roleId == 1024 { // 1024为超级管理员
+		array, err := dao.Button.Ctx(ctx).Fields(buttonCols.Id).Array()
+		if err != nil {
+			return nil, err
+		}
+		for _, value := range array {
+			resp.List = append(resp.List, value.Int())
+		}
+	} else {
+		resp.List = getRoleButtonIds(roleId)
+	}
+
 	return resp, nil
 }

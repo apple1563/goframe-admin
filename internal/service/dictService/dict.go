@@ -70,7 +70,6 @@ func DeleteDict(ctx context.Context, req *vdict.DeleteDictReq) (res *vdict.Delet
 }
 
 func ListDict(ctx context.Context, req *vdict.ListDictReq) (res *vdict.ListDictRes, err error) {
-	g.Dump(req)
 	var resp = &vdict.ListDictRes{
 		List:          make([]*entity.Dict, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},

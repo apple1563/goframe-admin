@@ -37,3 +37,7 @@ func (u *Button) AddButtonForRole(ctx context.Context, req *vbutton.ButtonForRol
 func (u *Button) GetButtonByRole(ctx context.Context, req *vbutton.ButtonByRoleReq) (res *vbutton.ButtonByRoleRes, err error) {
 	return buttonService.GetButtonByRole(ctx, req)
 }
+
+func (u *Button) ButtonWhitelist(ctx context.Context, req *vbutton.ButtonWhitelistReq) (res *vbutton.ButtonWhitelistRes, err error) {
+	return buttonService.ButtonWhitelist(ctx, req)
+}

@@ -3,7 +3,12 @@ package middleware
 import (
 	"github.com/goflyfox/gtoken/gtoken"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/yudeguang/ratelimit"
+	"goframe-starter/api/vapi"
+	"goframe-starter/internal/model/entity"
+	"goframe-starter/internal/service/apiService"
+	"strings"
 	"time"
 )
 
@@ -28,4 +33,22 @@ func RequestIpLimit(r *ghttp.Request) {
 
 	}
 	r.Middleware.Next()
+}
+
+func AutoAddApi(r *ghttp.Request) {
+	r.Middleware.Next()
+	var ctx = gctx.New()
+	flag := apiService.CheckApiExists(ctx, r.URL.Path, r.Method)
+	if flag {
+		return
+	}
+	//  自动添加api
+	var req = &vapi.AddApiReq{
+		Api: &entity.Api{
+			Url:    r.URL.Path,
+			Method: r.Method,
+			Group:  strings.Join(strings.Split(r.URL.Path, "/")[:3], "/"),
+		},
+	}
+	_, _ = apiService.AddApi(ctx, req)
 }

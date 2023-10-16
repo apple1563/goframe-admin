@@ -34,6 +34,7 @@ var (
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Group("/api", func(group *ghttp.RouterGroup) {
+					group.Middleware(middleware.AutoAddApi)
 					group.Bind(
 						user.Ctrl,
 						menu.Ctrl,

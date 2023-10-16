@@ -6,6 +6,7 @@ import (
 	"github.com/gogf/gf/v2/util/gconv"
 	"goframe-starter/api/vapi"
 	"goframe-starter/api/vcommon"
+	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
 	"goframe-starter/utility/xcasbin"
@@ -93,7 +94,7 @@ func OneApi(ctx context.Context, req *vapi.OneApiReq) (res *vapi.OneApiRes, err 
 }
 
 func AddApiForRole(ctx context.Context, req *vapi.ApiForRoleReq) (res *vapi.ApiForRoleRes, err error) {
-	var sub = "role-api " + gconv.String(req.RoleId)
+	var sub = consts.Role_Api_Prefix + gconv.String(req.RoleId)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(0, sub)
 	if err != nil {
 		return nil, err
@@ -107,7 +108,7 @@ func AddApiForRole(ctx context.Context, req *vapi.ApiForRoleReq) (res *vapi.ApiF
 	return
 }
 func GetApiByRole(ctx context.Context, req *vapi.ApiByRoleReq) (res *vapi.ApiByRoleRes, err error) {
-	var sub = "role-api " + gconv.String(req.RoleId)
+	var sub = consts.Role_Api_Prefix + gconv.String(req.RoleId)
 	var resp = &vapi.ApiByRoleRes{
 		List: make([]*vapi.ApiByRole, 0),
 	}

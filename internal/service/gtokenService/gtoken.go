@@ -5,14 +5,12 @@ import (
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
-	"github.com/gogf/gf/v2/os/gctx"
-	"goframe-starter/api/vapi"
+	"github.com/gogf/gf/v2/util/gconv"
 	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
-	"goframe-starter/internal/service/apiService"
+	"goframe-starter/utility/xcasbin"
 	"goframe-starter/utility/xpwd"
-	"strings"
 )
 
 type GFtokenFn struct {
@@ -84,12 +82,10 @@ func (*GFtokenFn) LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	return username, user
 }
 
-/*
-	func AuthBeforeFunc(r *ghttp.Request) bool {
-		r.SetCtxVar("time", time.Now())
-		return true
-	}
-*/
+/*func (*GFtokenFn) AuthBeforeFunc(r *ghttp.Request) bool {
+	return true
+}*/
+
 func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	if respData.Code != 0 {
 		switch r.Method {
@@ -109,33 +105,15 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	r.SetCtxVar("pid", userInfo.Pid)
 	r.SetCtxVar("roleId", userInfo.RoleId)
 
-	go func() {
-		var ctx = gctx.New()
-
-		flag := apiService.CheckApiExists(ctx, r.URL.Path, r.Method)
-		if flag {
-			return
-		}
-		//  自动添加api
-		var req = &vapi.AddApiReq{
-			Api: &entity.Api{
-				Url:    r.URL.Path,
-				Method: r.Method,
-				Group:  strings.Join(strings.Split(r.URL.Path, "/")[:3], "/"),
-			},
-		}
-		_, _ = apiService.AddApi(ctx, req)
-	}()
-
 	//  登录校验后  casbin权限校验
-	/*enforce, _ := xcasbin.Enforcer.Enforce("role-api " + gconv.String(userInfo.RoleId), r.URL.Path, r.Method)
+	enforce, _ := xcasbin.Enforcer.Enforce(consts.Role_Api_Prefix+gconv.String(userInfo.RoleId), r.URL.Path, r.Method)
 	if !enforce {
 		respData.Code = -403
 		respData.Data = "未授权"
 		r.Response.Status = 403
 		r.Response.WriteJsonExit(respData)
 		return
-	}*/
+	}
 
 	r.Middleware.Next()
 	//elapsedTime := time.Since(timeStart)
