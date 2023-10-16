@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"goframe-starter/internal/controller/api"
 	"goframe-starter/internal/controller/button"
 	"goframe-starter/internal/controller/dict"
 	"goframe-starter/internal/controller/menu"
@@ -40,6 +41,7 @@ var (
 						button.Ctrl,
 						region.Ctrl,
 						dict.Ctrl,
+						api.Ctrl,
 					)
 				})
 			})

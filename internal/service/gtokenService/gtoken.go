@@ -5,10 +5,14 @@ import (
 	"github.com/gogf/gf/v2/encoding/gjson"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
+	"github.com/gogf/gf/v2/os/gctx"
+	"goframe-starter/api/vapi"
 	"goframe-starter/internal/consts"
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
+	"goframe-starter/internal/service/apiService"
 	"goframe-starter/utility/xpwd"
+	"strings"
 )
 
 type GFtokenFn struct {
@@ -104,8 +108,21 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 	r.SetCtxVar("uid", userInfo.Id)
 	r.SetCtxVar("pid", userInfo.Pid)
 	r.SetCtxVar("roleId", userInfo.RoleId)
+
+	go func() {
+		//  自动添加api
+		var req = &vapi.AddApiReq{
+			Api: &entity.Api{
+				Url:    r.URL.Path,
+				Method: r.Method,
+				Group:  strings.Join(strings.Split(r.URL.Path, "/")[:3], "/"),
+			},
+		}
+		_, _ = apiService.AddApi(gctx.New(), req)
+	}()
+
 	//  登录校验后  casbin权限校验
-	/*enforce, _ := xcasbin.Enforcer.Enforce(userInfo.RoleId, r.URL.Path, r.Method)
+	/*enforce, _ := xcasbin.Enforcer.Enforce("role-api " + gconv.String(userInfo.RoleId), r.URL.Path, r.Method)
 	if !enforce {
 		respData.Code = -403
 		respData.Data = "未授权"

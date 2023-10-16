@@ -31,13 +31,13 @@ type MenuColumns struct {
 	Permissions    string // 菜单包含权限集合
 	PermissionName string // 权限名称
 	Component      string // 组件路径
-	AlwaysShow     string // 取消自动计算根路由模式
+	AlwaysShow     string // 取消自动计算根路由模式  1是2否
 	ActiveMenu     string // 高亮菜单编码
 	IsRoot         string // 是否跟路由
-	IsFrame        string // 是否内嵌
-	FrameSrc       string // 内联外部地址
-	KeepAlive      string // 缓存该路由
-	Hidden         string // 是否隐藏
+	IsFrame        string // 是否跳转外链
+	FrameSrc       string // iframe地址
+	KeepAlive      string // 缓存该路由，1是2否
+	Hidden         string // 是否隐藏,1是2否
 	Affix          string // 是否固定
 	Level          string // 关系树等级 1根2子3孙
 	Tree           string // 关系树

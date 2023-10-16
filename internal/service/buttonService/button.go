@@ -10,6 +10,7 @@ import (
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
 	"goframe-starter/utility/xcasbin"
+	"strings"
 )
 
 var buttonCols = dao.Button.Columns()
@@ -58,7 +59,7 @@ func DeleteButton(ctx context.Context, req *vbutton.DeleteButtonReq) (res *vbutt
 		return nil, err
 	}
 	// 删除关联的casbin，删除角色与按钮关联
-	var obj = gconv.String(req.Id)
+	var obj = "button " + gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(1, obj)
 	if err != nil {
 		return nil, err
@@ -112,7 +113,8 @@ func AddButtonForRole(ctx context.Context, req *vbutton.ButtonForRoleReq) (res *
 		return nil, err
 	}
 	for _, buttonId := range req.ButtonIds {
-		_, err := xcasbin.Enforcer.AddPolicy(sub, gconv.String(buttonId), "ALL")
+		var obj = "button " + gconv.String(buttonId)
+		_, err := xcasbin.Enforcer.AddPolicy(sub, gconv.String(obj), "ALL")
 		if err != nil {
 			return nil, err
 		}
@@ -126,7 +128,8 @@ func GetButtonByRole(ctx context.Context, req *vbutton.ButtonByRoleReq) (res *vb
 	}
 	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
 	for _, rule := range rules {
-		resp.List = append(resp.List, gconv.Int(rule[1]))
+		parts := strings.Split(rule[1], " ")
+		resp.List = append(resp.List, gconv.Int(parts[1]))
 	}
 	return resp, nil
 }

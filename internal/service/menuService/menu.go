@@ -9,6 +9,7 @@ import (
 	"goframe-starter/internal/dao"
 	"goframe-starter/internal/model/entity"
 	"goframe-starter/utility/xcasbin"
+	"strings"
 )
 
 var menuCols = dao.Menu.Columns()
@@ -50,7 +51,7 @@ func DeleteMenu(ctx context.Context, req *vmenu.DeleteMenuReq) (res *vmenu.Delet
 		return nil, err
 	}
 	// 删除关联的casbin，删除角色与菜单关联
-	var obj = gconv.String(req.Id)
+	var obj = "menu " + gconv.String(req.Id)
 	_, err = xcasbin.Enforcer.RemoveFilteredPolicy(1, obj)
 	if err != nil {
 		return nil, err
@@ -64,7 +65,8 @@ func AddMenuForRole(ctx context.Context, req *vmenu.MenuForRoleReq) (res *vmenu.
 		return nil, err
 	}
 	for _, menuId := range req.MenuIds {
-		_, err := xcasbin.Enforcer.AddPolicy(sub, gconv.String(menuId), "ALL")
+		var obj = "menu " + gconv.String(menuId)
+		_, err := xcasbin.Enforcer.AddPolicy(sub, gconv.String(obj), "ALL")
 		if err != nil {
 			return nil, err
 		}
@@ -78,7 +80,8 @@ func GetMenuByRole(ctx context.Context, req *vmenu.MenuByRoleReq) (res *vmenu.Me
 	}
 	var rules = xcasbin.Enforcer.GetFilteredPolicy(0, sub)
 	for _, rule := range rules {
-		resp.List = append(resp.List, gconv.Int(rule[1]))
+		parts := strings.Split(rule[1], " ")
+		resp.List = append(resp.List, gconv.Int(parts[1]))
 	}
 	return resp, nil
 }

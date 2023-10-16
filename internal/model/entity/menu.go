@@ -21,13 +21,13 @@ type Menu struct {
 	Permissions    string      `json:"permissions"    description:"菜单包含权限集合"`
 	PermissionName string      `json:"permissionName" description:"权限名称"`
 	Component      string      `json:"component"      description:"组件路径"`
-	AlwaysShow     int         `json:"alwaysShow"     description:"取消自动计算根路由模式"`
+	AlwaysShow     int         `json:"alwaysShow"     description:"取消自动计算根路由模式  1是2否"`
 	ActiveMenu     string      `json:"activeMenu"     description:"高亮菜单编码"`
 	IsRoot         int         `json:"isRoot"         description:"是否跟路由"`
-	IsFrame        int         `json:"isFrame"        description:"是否内嵌"`
-	FrameSrc       string      `json:"frameSrc"       description:"内联外部地址"`
-	KeepAlive      int         `json:"keepAlive"      description:"缓存该路由"`
-	Hidden         int         `json:"hidden"         description:"是否隐藏"`
+	IsFrame        int         `json:"isFrame"        description:"是否跳转外链"`
+	FrameSrc       string      `json:"frameSrc"       description:"iframe地址"`
+	KeepAlive      int         `json:"keepAlive"      description:"缓存该路由，1是2否"`
+	Hidden         int         `json:"hidden"         description:"是否隐藏,1是2否"`
 	Affix          int         `json:"affix"          description:"是否固定"`
 	Level          int         `json:"level"          description:"关系树等级 1根2子3孙"`
 	Tree           string      `json:"tree"           description:"关系树"`
