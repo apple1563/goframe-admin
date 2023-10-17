@@ -71,10 +71,11 @@ func (*GFtokenFn) LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	var loginLogCols = dao.LoginLog.Columns()
 	_, err = dao.LoginLog.Ctx(ctx).Data(g.Map{
 		loginLogCols.Uid:         user.Id,
-		loginLogCols.Role:        user.RoleId,
+		loginLogCols.RoleId:      user.RoleId,
+		loginLogCols.RoleName:    user.RoleName,
 		loginLogCols.Username:    user.Username,
 		loginLogCols.ClientAgent: r.UserAgent(),
-		loginLogCols.PRole:       user.PRoleId,
+		loginLogCols.PRoleId:     user.PRoleId,
 		loginLogCols.Pid:         user.Pid,
 		loginLogCols.PUsername:   user.PUsername,
 		loginLogCols.Ip:          r.GetClientIp(),

@@ -17,8 +17,9 @@ type LoginLog struct {
 	CreatedAt   *gtime.Time `json:"createdAt"   description:""`
 	UpdatedAt   *gtime.Time `json:"updatedAt"   description:""`
 	ClientAgent string      `json:"clientAgent" description:"注册clientAgen头"`
-	Role        int         `json:"role"        description:"1用户2代理3管理"`
-	PRole       string      `json:"pRole"       description:""`
+	RoleId      int         `json:"roleId"      description:"1用户2代理3管理"`
+	PRoleId     int         `json:"pRoleId"     description:""`
+	RoleName    string      `json:"roleName"    description:""`
 	Pid         int         `json:"pid"         description:""`
 	PUsername   string      `json:"pUsername"   description:""`
 }

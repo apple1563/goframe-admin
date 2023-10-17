@@ -13,9 +13,9 @@ import (
 type Api struct {
 	g.Meta    `orm:"table:api, do:true"`
 	Id        interface{} //
+	Url       interface{} //
 	Method    interface{} //
 	Group     interface{} //
-	Url       interface{} //
 	Remark    interface{} //
 	CreatedAt *gtime.Time //
 	UpdatedAt *gtime.Time //

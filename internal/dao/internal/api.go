@@ -21,9 +21,9 @@ type ApiDao struct {
 // ApiColumns defines and stores column names for table api.
 type ApiColumns struct {
 	Id        string //
+	Url       string //
 	Method    string //
 	Group     string //
-	Url       string //
 	Remark    string //
 	CreatedAt string //
 	UpdatedAt string //
@@ -32,9 +32,9 @@ type ApiColumns struct {
 // apiColumns holds the columns for table api.
 var apiColumns = ApiColumns{
 	Id:        "id",
+	Url:       "url",
 	Method:    "method",
 	Group:     "group",
-	Url:       "url",
 	Remark:    "remark",
 	CreatedAt: "created_at",
 	UpdatedAt: "updated_at",

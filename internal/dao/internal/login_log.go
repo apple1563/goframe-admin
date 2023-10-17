@@ -27,8 +27,9 @@ type LoginLogColumns struct {
 	CreatedAt   string //
 	UpdatedAt   string //
 	ClientAgent string // 注册clientAgen头
-	Role        string // 1用户2代理3管理
-	PRole       string //
+	RoleId      string // 1用户2代理3管理
+	PRoleId     string //
+	RoleName    string //
 	Pid         string //
 	PUsername   string //
 }
@@ -42,8 +43,9 @@ var loginLogColumns = LoginLogColumns{
 	CreatedAt:   "created_at",
 	UpdatedAt:   "updated_at",
 	ClientAgent: "client_agent",
-	Role:        "role",
-	PRole:       "p_role",
+	RoleId:      "role_id",
+	PRoleId:     "p_role_id",
+	RoleName:    "role_name",
 	Pid:         "pid",
 	PUsername:   "p_username",
 }

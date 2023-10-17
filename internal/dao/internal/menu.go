@@ -26,7 +26,7 @@ type MenuColumns struct {
 	Name           string // 名称编码
 	Path           string // 路由地址
 	Icon           string // 菜单图标
-	Type           string // 菜单类型（1目录 2菜单 3按钮）
+	Type           string // 菜单类型（1目录 2菜单）
 	Redirect       string // 重定向地址
 	Permissions    string // 菜单包含权限集合
 	PermissionName string // 权限名称

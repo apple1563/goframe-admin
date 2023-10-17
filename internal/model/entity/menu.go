@@ -16,7 +16,7 @@ type Menu struct {
 	Name           string      `json:"name"           description:"名称编码"`
 	Path           string      `json:"path"           description:"路由地址"`
 	Icon           string      `json:"icon"           description:"菜单图标"`
-	Type           int         `json:"type"           description:"菜单类型（1目录 2菜单 3按钮）"`
+	Type           int         `json:"type"           description:"菜单类型（1目录 2菜单）"`
 	Redirect       string      `json:"redirect"       description:"重定向地址"`
 	Permissions    string      `json:"permissions"    description:"菜单包含权限集合"`
 	PermissionName string      `json:"permissionName" description:"权限名称"`

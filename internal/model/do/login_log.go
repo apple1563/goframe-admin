@@ -19,8 +19,9 @@ type LoginLog struct {
 	CreatedAt   *gtime.Time //
 	UpdatedAt   *gtime.Time //
 	ClientAgent interface{} // 注册clientAgen头
-	Role        interface{} // 1用户2代理3管理
-	PRole       interface{} //
+	RoleId      interface{} // 1用户2代理3管理
+	PRoleId     interface{} //
+	RoleName    interface{} //
 	Pid         interface{} //
 	PUsername   interface{} //
 }

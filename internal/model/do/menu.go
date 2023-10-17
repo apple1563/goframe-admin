@@ -18,7 +18,7 @@ type Menu struct {
 	Name           interface{} // 名称编码
 	Path           interface{} // 路由地址
 	Icon           interface{} // 菜单图标
-	Type           interface{} // 菜单类型（1目录 2菜单 3按钮）
+	Type           interface{} // 菜单类型（1目录 2菜单）
 	Redirect       interface{} // 重定向地址
 	Permissions    interface{} // 菜单包含权限集合
 	PermissionName interface{} // 权限名称
