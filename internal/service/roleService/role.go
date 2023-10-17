@@ -119,14 +119,20 @@ func ListRoleForSelect(ctx context.Context, req *vrole.ListRoleForSelectReq) (re
 		List: make([]*entity.Role, 0),
 	}
 	var roleId = gconv.Uint(ctx.Value("roleId"))
-	//管理员
-	if roleId == consts.Role_Admin_Code {
+	//超级管理员
+	if roleId == consts.Role_Root_Code {
 		err := dao.Role.Ctx(ctx).WhereNot(roleCols.Id, roleId).Scan(&resp.List)
 		if err != nil {
 			return nil, err
 		}
+	} else if roleId == consts.Role_Admin_Code {
+		// 管理员可以选择管理员，代理，用户
+		err := dao.Role.Ctx(ctx).WhereIn(roleCols.Id, g.Slice{1, 3, roleId}).Scan(&resp.List)
+		if err != nil {
+			return nil, err
+		}
 	} else {
-		//菲管理员用户新增用户只能选自身角色和用户角色，用户角色为1
+		//菲超级管理员新增用户只能选自身角色和用户角色，用户角色为1
 		err := dao.Role.Ctx(ctx).WhereIn(roleCols.Id, g.Slice{1, roleId}).Scan(&resp.List)
 		if err != nil {
 			return nil, err

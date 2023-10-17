@@ -28,13 +28,12 @@ var (
 		Brief: "start http server",
 		Func: func(ctx context.Context, parser *gcmd.Parser) (err error) {
 			s := g.Server(g.Cfg().MustGet(ctx, "server.name").String())
-			s.BindMiddlewareDefault(middleware.DefaultCORS, middleware.RequestIpLimit)
+			s.BindMiddlewareDefault(middleware.DefaultCORS, middleware.RequestIpLimit, middleware.AutoAddApi)
 			xcasbin.Init()
 			xcache.Init()
 			s.Group("/", func(group *ghttp.RouterGroup) {
 				group.Middleware(ghttp.MiddlewareHandlerResponse)
 				group.Group("/api", func(group *ghttp.RouterGroup) {
-					group.Middleware(middleware.AutoAddApi)
 					group.Bind(
 						user.Ctrl,
 						menu.Ctrl,

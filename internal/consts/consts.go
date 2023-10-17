@@ -27,6 +27,7 @@ var (
 	ErrBalance          = gerror.NewCode(gcode.New(-112, "用户余额错误", ""))
 	ErrUserDead         = gerror.NewCode(gcode.New(-113, "账号已注销", ""))
 	ErrUserDisable      = gerror.NewCode(gcode.New(-114, "账号已禁用", ""))
+	ErrUserRole         = gerror.NewCode(gcode.New(-115, "角色无登录权限", ""))
 
 	ErrAreaCode       = gerror.NewCode(gcode.New(-216, "手机区号错误", ""))
 	ErrPhoneEmpty     = gerror.NewCode(gcode.New(-120, "手机号不能为空", ""))
@@ -53,9 +54,11 @@ var (
 	ErrRoleDelete     = gerror.NewCode(gcode.New(-4001, "角色已被用户关联，请将关联用户设为其他角色", ""))
 )
 
+const Role_Root_Code = 1024 //超级管理员
 const Role_User_Code = 1
-const Role_Agent_Code = 3
 const Role_Admin_Code = 2
+const Role_Agent_Code = 3
+const Role_Caiwu_Code = 4
 
 const USER_STATUS_ENABLE = 1
 const USER_STATUS_DISABLE = 2

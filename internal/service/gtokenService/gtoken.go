@@ -45,23 +45,28 @@ func (*GFtokenFn) LoginBeforeFunc(r *ghttp.Request) (string, interface{}) {
 	}
 	//  根据status判断用户可否登录
 	if user.Status == consts.USER_STATUS_DEAD {
-		r.Response.WriteJson(consts.ErrUserDead)
+		r.Response.WriteJson(gtoken.Fail(consts.ErrUserDead.Error()))
 		r.ExitAll()
 	}
 	if user.Status == consts.USER_STATUS_DISABLE {
-		r.Response.WriteJson(consts.ErrUserDisable)
+		r.Response.WriteJson(gtoken.Fail(consts.ErrUserDisable.Error()))
 		r.ExitAll()
 	}
 	if !xpwd.ComparePassword(user.Password, password) {
 		r.Response.WriteJson(gtoken.Fail("WRONG PASSWORD."))
 		r.ExitAll()
 	}
-	//  判断角色有无登录后台权限
-	/*enforce, _ := xcasbin.Enforcer.Enforce(user.RoleId, r.URL.Path, r.Method)
-	if !enforce {
-		r.Response.WriteJson(gtoken.Fail("ACCOUNT ROLE ERROR."))
+	//  用户角色不能登录后台
+	/*if user.RoleId == consts.Role_User_Code {
+		r.Response.WriteJson(consts.ErrUserRole)
 		r.ExitAll()
 	}*/
+	//  判断角色有无登录后台权限
+	enforce, _ := xcasbin.Enforcer.Enforce(consts.Role_Api_Prefix+gconv.String(user.RoleId), r.URL.Path, r.Method)
+	if !enforce {
+		r.Response.WriteJson(gtoken.Fail(consts.ErrUserRole.Error()))
+		r.ExitAll()
+	}
 	// 写入登录日志
 	var loginLogCols = dao.LoginLog.Columns()
 	_, err = dao.LoginLog.Ctx(ctx).Data(g.Map{

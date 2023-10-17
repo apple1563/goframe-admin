@@ -166,8 +166,9 @@ func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserR
 	if req.RoleId != 0 {
 		data[userCols.RoleId] = req.RoleId
 	}
-
-	err = g.Model(dao.User.Table()).LeftJoin(dao.UserRelation.Table()+" ur", "user.id=ur.user_id").Where("ur.p_user_id", ctx.Value("uid")).Fields("user.*,ur.level").Where(data).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
+	var uid = gconv.Int(ctx.Value("uid"))
+	//var roleId = gconv.Int(ctx.Value("roleId"))
+	err = g.Model(dao.User.Table()).LeftJoin(dao.UserRelation.Table()+" ur", "user.id=ur.user_id").Where("ur.p_user_id", uid).Fields("user.*,ur.level").Where(data).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
 	if err != nil {
 		return nil, err
 	}
@@ -208,6 +209,7 @@ func TreeListUserScope(ctx context.Context, req *vuser.TreeListUserReq) (res *vu
 
 func genTreeList(list []*entity.User, pid int) []*vuser.TreeNodeUser {
 	res := make([]*vuser.TreeNodeUser, 0)
+	g.Dump(list)
 	for _, user := range list {
 		if gconv.Int(user.Pid) == pid {
 			var u = &vuser.TreeNodeUser{

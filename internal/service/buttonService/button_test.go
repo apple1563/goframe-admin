@@ -1,9 +1,11 @@
 package buttonService
 
 import (
+	"fmt"
 	_ "github.com/gogf/gf/contrib/drivers/mysql/v2"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/os/gctx"
+	"github.com/gogf/gf/v2/text/gstr"
 	"goframe-starter/internal/dao"
 	"testing"
 )
@@ -15,4 +17,13 @@ func TestGroup(t *testing.T) {
 		return
 	}
 	g.Dump(value)
+}
+
+func Test_aaa(t *testing.T) {
+	var (
+		haystack = `/api/sdf/nn`
+		needle   = `/api/`
+		result1  = gstr.PosI(haystack, needle)
+	)
+	fmt.Println(result1)
 }
