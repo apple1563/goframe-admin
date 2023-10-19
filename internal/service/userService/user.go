@@ -168,7 +168,7 @@ func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserR
 	}
 	var uid = gconv.Int(ctx.Value("uid"))
 	//var roleId = gconv.Int(ctx.Value("roleId"))
-	err = g.Model(dao.User.Table()).LeftJoin(dao.UserRelation.Table()+" ur", "user.id=ur.user_id").Where("ur.p_user_id", uid).Fields("user.*,ur.level").Where(data).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
+	err = g.Model(dao.User.Table()).InnerJoin(dao.UserRelation.Table()+" ur", "user.id=ur.user_id").Where("ur.p_user_id", uid).Fields("user.*,ur.level").Where(data).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
 	if err != nil {
 		return nil, err
 	}

@@ -23,7 +23,7 @@ func RequestIpLimit(r *ghttp.Request) {
 	rule := ratelimit.NewRule()
 	rule.AddRule(time.Hour, 10000)
 	rule.AddRule(time.Minute, 600)
-	rule.AddRule(time.Second, 10)
+	rule.AddRule(time.Second, 60)
 	ok := rule.AllowVisit(ip)
 	if !ok {
 		g2 := gtoken.Resp{

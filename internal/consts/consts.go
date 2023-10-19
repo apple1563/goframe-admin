@@ -52,6 +52,9 @@ var (
 
 	ErrRoleNameExists = gerror.NewCode(gcode.New(-4000, "角色名称已存在", ""))
 	ErrRoleDelete     = gerror.NewCode(gcode.New(-4001, "角色已被用户关联，请将关联用户设为其他角色", ""))
+
+	ErrNoFileInput = gerror.NewCode(gcode.New(-5000, "没有上传文件", ""))
+	ErrFileInput   = gerror.NewCode(gcode.New(-5001, "上传出错", ""))
 )
 
 const Role_Root_Code = 1024 //超级管理员

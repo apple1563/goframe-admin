@@ -121,3 +121,15 @@ func GetValueByKey(ctx context.Context, key string) string {
 	}
 	return value.String()
 }
+
+// 根据上传类型返回字典列表
+func ListDictByType(ctx context.Context, configType string) (res *vdict.ListDictByTypeRes, err error) {
+	res = &vdict.ListDictByTypeRes{
+		List: make([]*entity.Dict, 0),
+	}
+	err = dao.Dict.Ctx(ctx).Where(dictCols.ConfigType, configType).Scan(&res.List)
+	if err != nil {
+		return nil, err
+	}
+	return
+}

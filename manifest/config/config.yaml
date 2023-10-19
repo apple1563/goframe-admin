@@ -2,6 +2,7 @@ server:
   name: "goframe-starter"
   address:     ":8888"
   serverRoot: "resource/public"
+  uploadRoot: "resource/public/upload"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
   # Logging配置
@@ -44,6 +45,7 @@ database:
     Path: "logs/sql"
 
   default:
+#    link: "mysql:starter:HPxNd6sT48yehDCr@tcp(163.197.246.80:3306)/starter?loc=Local&parseTime=true"
     link: "mysql:root:123456@tcp(127.0.0.1:3306)/starter?loc=Local&parseTime=true"
     debug:  true
     charset: "utf8mb4" #数据库编码
@@ -64,7 +66,7 @@ redis:
     dialTimeout: "30s" #TCP连接的超时时间，使用时间字符串例如30s/1m/1d
     readTimeout: "30s" #TCP的Read操作超时时间，使用时间字符串例如30s/1m/1d
     writeTimeout: "30s" #TCP的Write操作超时时间，使用时间字符串例如30s/1m/1d
-    maxActive: 100
+    maxActive: 1000
 
 #casbin配置
 casbin:

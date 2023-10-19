@@ -29,3 +29,7 @@ func (u *Dict) ListDict(ctx context.Context, req *vdict.ListDictReq) (res *vdict
 func (u *Dict) OneDict(ctx context.Context, req *vdict.OneDictReq) (res *vdict.OneDictRes, err error) {
 	return dictService.OneDict(ctx, req)
 }
+
+func (u *Dict) ListDictByType(ctx context.Context, req *vdict.ListDictByTypeReq) (res *vdict.ListDictByTypeRes, err error) {
+	return dictService.ListDictByType(ctx, req.ConfigType)
+}

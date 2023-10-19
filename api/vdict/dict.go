@@ -39,3 +39,11 @@ type OneDictReq struct {
 	Id     uint `json:"id" v:"required" description:""`
 }
 type OneDictRes *entity.Dict
+
+type ListDictByTypeReq struct {
+	g.Meta     `tags:"字典" method:"get" path:"/dict/list/type"  sm:"列表" dc:"字典列表(按类型区分)" `
+	ConfigType string `json:"configType"  description:"字典类型"`
+}
+type ListDictByTypeRes struct {
+	List []*entity.Dict `json:"list"`
+}

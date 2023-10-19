@@ -5,6 +5,7 @@ import (
 	"goframe-starter/internal/controller/api"
 	"goframe-starter/internal/controller/button"
 	"goframe-starter/internal/controller/dict"
+	"goframe-starter/internal/controller/file"
 	"goframe-starter/internal/controller/log"
 	"goframe-starter/internal/controller/menu"
 	"goframe-starter/internal/controller/region"
@@ -44,6 +45,7 @@ var (
 						dict.Ctrl,
 						api.Ctrl,
 						log.Ctrl,
+						file.Ctrl,
 					)
 				})
 			})
