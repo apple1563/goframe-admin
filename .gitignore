@@ -18,4 +18,4 @@ temp.yaml
 bin
 logs
 **/logs
-resource/upload/**
+resource/public/upload/**

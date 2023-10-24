@@ -22,6 +22,10 @@ func (u *User) UpdateUser(ctx context.Context, req *vuser.UpdateUserReq) (res *v
 	return userService.UpdateUser(ctx, req)
 }
 
+func (u *User) UpdateUserPassword(ctx context.Context, req *vuser.UpdateUserPasswordReq) (res *vuser.UpdateUserPasswordRes, err error) {
+	return userService.UpdateUserPassword(ctx, req)
+}
+
 func (u *User) ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserRes, err error) {
 	return userService.ListUser(ctx, req)
 }

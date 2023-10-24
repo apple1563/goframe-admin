@@ -26,8 +26,15 @@ type UpdateUserReq struct {
 }
 type UpdateUserRes struct{}
 
+type UpdateUserPasswordReq struct {
+	g.Meta      `tags:"用户" method:"put" path:"/user/password"  sm:"修改" dc:"更新用户密码" `
+	Password    string `json:"password"`
+	PasswordNew string `json:"passwordNew"`
+}
+type UpdateUserPasswordRes struct{}
+
 type ListUserReq struct {
-	g.Meta `tags:"用户" method:"get" path:"/user/list"  sm:"列表" dc:"用来列表" `
+	g.Meta `tags:"用户" method:"get" path:"/user/list"  sm:"列表" dc:"用户列表" `
 	*entity.User
 	*vcommon.CommonPageReq
 }

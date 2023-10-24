@@ -106,8 +106,9 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		r.Response.WriteJsonExit(err)
 		return
 	}
-	r.SetCtxVar("userInfo", userInfo)
+	//r.SetCtxVar("userInfo", userInfo)
 	r.SetCtxVar("uid", userInfo.Id)
+	r.SetCtxVar("username", userInfo.Username)
 	r.SetCtxVar("pid", userInfo.Pid)
 	r.SetCtxVar("roleId", userInfo.RoleId)
 

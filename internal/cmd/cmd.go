@@ -8,6 +8,7 @@ import (
 	"goframe-starter/internal/controller/file"
 	"goframe-starter/internal/controller/log"
 	"goframe-starter/internal/controller/menu"
+	"goframe-starter/internal/controller/otp"
 	"goframe-starter/internal/controller/region"
 	"goframe-starter/internal/controller/role"
 	"goframe-starter/internal/controller/user"
@@ -46,6 +47,7 @@ var (
 						api.Ctrl,
 						log.Ctrl,
 						file.Ctrl,
+						otp.Ctrl,
 					)
 				})
 			})

@@ -109,18 +109,57 @@ func DeleteUser(ctx context.Context, req *vuser.DeleteUserReq) (res *vuser.Delet
 }
 
 func UpdateUser(ctx context.Context, req *vuser.UpdateUserReq) (res *vuser.UpdateUserRes, err error) {
-	_, err = dao.User.Ctx(ctx).Where(userCols.Id, req.Id).Data(g.Map{
-		userCols.Password: req.Password,
-		userCols.Nickname: req.Nickname,
-		userCols.Email:    req.Email,
-		userCols.Phone:    req.Phone,
-		userCols.Status:   req.Status,
-		userCols.RoleId:   req.RoleId,
-		userCols.RoleName: req.RoleName,
-	}).Update()
+	var data = g.Map{}
+	if req.Password != "" {
+		data[userCols.Password] = req.Password
+	}
+	if req.Nickname != "" {
+		data[userCols.Nickname] = req.Nickname
+	}
+	if req.Email != "" {
+		data[userCols.Email] = req.Email
+	}
+	if req.Phone != "" {
+		data[userCols.Phone] = req.Phone
+	}
+	if req.Status != 0 {
+		data[userCols.Status] = req.Status
+	}
+	if req.RoleId != 0 {
+		data[userCols.RoleId] = req.RoleId
+	}
+	if req.RoleName != "" {
+		data[userCols.RoleName] = req.RoleName
+	}
+	var uid = req.Id
+	if req.Id == 0 {
+		uid = gconv.Uint(ctx.Value("uid"))
+	}
+	_, err = dao.User.Ctx(ctx).Where(userCols.Id, uid).Data(data).Update()
 	if err != nil {
 		return nil, err
 	}
+
+	return
+}
+
+func UpdateUserPassword(ctx context.Context, req *vuser.UpdateUserPasswordReq) (res *vuser.UpdateUserPasswordRes, err error) {
+	var data = g.Map{}
+	var uid = gconv.Uint(ctx.Value("uid"))
+	value, err := dao.User.Ctx(ctx).WherePri(uid).Fields(userCols.Password).Value()
+
+	if err != nil {
+		return nil, err
+	}
+	if !xpwd.ComparePassword(value.String(), req.Password) {
+		return nil, consts.ErrOldPassNotMatch
+	}
+	data[userCols.Password] = xpwd.GenPwd(req.PasswordNew)
+	_, err = dao.User.Ctx(ctx).WherePri(uid).Data(data).Update()
+	if err != nil {
+		return nil, err
+	}
+
 	return
 }
 
@@ -184,7 +223,11 @@ func OneUser(ctx context.Context, req *vuser.OneUserReq) (res *vuser.OneUserRes,
 }
 
 func UserInfo(ctx context.Context, req *vuser.UserInfoReq) (res *vuser.UserInfoRes, err error) {
-	err = gconv.Scan(ctx.Value("userInfo"), &res)
+	/*err = gconv.Scan(ctx.Value("userInfo"), &res)
+	if err != nil {
+		return nil, err
+	}*/
+	err = dao.User.Ctx(ctx).Where(userCols.Id, ctx.Value("uid")).Scan(&res)
 	if err != nil {
 		return nil, err
 	}
@@ -206,7 +249,6 @@ func TreeListUserScope(ctx context.Context, req *vuser.TreeListUserReq) (res *vu
 }
 
 // tool
-
 func genTreeList(list []*entity.User, pid int) []*vuser.TreeNodeUser {
 	res := make([]*vuser.TreeNodeUser, 0)
 	g.Dump(list)

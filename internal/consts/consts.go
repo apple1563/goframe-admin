@@ -28,6 +28,7 @@ var (
 	ErrUserDead         = gerror.NewCode(gcode.New(-113, "账号已注销", ""))
 	ErrUserDisable      = gerror.NewCode(gcode.New(-114, "账号已禁用", ""))
 	ErrUserRole         = gerror.NewCode(gcode.New(-115, "角色无登录权限", ""))
+	ErrOtpCode          = gerror.NewCode(gcode.New(-116, "OTP验证码错误", ""))
 
 	ErrAreaCode       = gerror.NewCode(gcode.New(-216, "手机区号错误", ""))
 	ErrPhoneEmpty     = gerror.NewCode(gcode.New(-120, "手机号不能为空", ""))
@@ -74,3 +75,7 @@ const Cache_Mode_Redis = 2
 const Role_Api_Prefix = "role-api "
 const Role_Menu_Prefix = "role-menu "
 const Role_Button_Prefix = "role-button "
+
+// otp开关
+const OTP_STATUS_ON = 1
+const OTP_STATUS_OFF = 2

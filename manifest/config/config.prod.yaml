@@ -35,6 +35,8 @@ gfToken:
     - "/api/"
   excludePaths:
     - "/api/login"
+    - "/api/otp/username"
+    - "/api/otp/validate"
 
 # Database.
 database:
