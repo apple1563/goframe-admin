@@ -148,7 +148,7 @@ func ListNoticeForSender(ctx context.Context, req *vnotice.ListNoticeReq) (res *
 		data[noticeCols.Id] = req.Id
 	}
 
-	var model = dao.Notice.Ctx(ctx).Where(data).OrderDesc(noticeCols.CreatedAt)
+	var model = dao.Notice.Ctx(ctx).Where(data).OrderAsc(noticeCols.Sort).OrderDesc(noticeCols.CreatedAt)
 	if req.PageSize != 0 {
 		resp.PageIndex = req.PageIndex
 		resp.PageSize = req.PageSize
@@ -160,6 +160,16 @@ func ListNoticeForSender(ctx context.Context, req *vnotice.ListNoticeReq) (res *
 	}
 	return resp, nil
 }
+
+func OneNotice(ctx context.Context, req *vnotice.OneNoticeReq) (res *vnotice.OneNoticeRes, err error) {
+	err = dao.Notice.Ctx(ctx).Where(noticeCols.Id, req.Id).Scan(&res)
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+// 接收端
 
 func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiverReq) (res *vnotice.ListNoticeForReceiverRes, err error) {
 	//  在添加公告的时候在公告与个人的关联表写入数据，查询的时候join这个表
@@ -179,7 +189,7 @@ func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiv
 		model = model.WhereLike("b.tag", req.Tag)
 	}
 
-	model = model.OrderDesc("b.created_at")
+	model = model.OrderAsc("b.sort").OrderDesc("b.created_at")
 	if req.PageSize != 0 {
 		resp.PageIndex = req.PageIndex
 		resp.PageSize = req.PageSize
@@ -190,12 +200,4 @@ func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiv
 		return nil, err
 	}
 	return resp, nil
-}
-
-func OneNotice(ctx context.Context, req *vnotice.OneNoticeReq) (res *vnotice.OneNoticeRes, err error) {
-	err = dao.Notice.Ctx(ctx).Where(noticeCols.Id, req.Id).Scan(&res)
-	if err != nil {
-		return nil, err
-	}
-	return
 }
