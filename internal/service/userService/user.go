@@ -169,15 +169,15 @@ func ListUserAll(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUs
 		List:          make([]*entity.User, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},
 	}
-	resp.Size = req.Size
-	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.PageIndex = req.PageIndex
 	err = dao.User.Ctx(ctx).Where(g.Map{
 		userCols.Username + " like ?": req.Username,
 		userCols.Id:                   req.Id,
 		userCols.Pid:                  req.Pid,
 		userCols.PUsername:            req.PUsername,
 		userCols.RoleId:               req.RoleId,
-	}).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
+	}).Page(req.PageIndex, req.PageSize).ScanAndCount(&resp.List, &resp.Total, false)
 	if err != nil {
 		return nil, err
 	}
@@ -190,8 +190,8 @@ func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserR
 		List:          make([]*vuser.ItemUser, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},
 	}
-	resp.Size = req.Size
-	resp.Page = req.Page
+	resp.PageSize = req.PageSize
+	resp.PageIndex = req.PageIndex
 	var data = g.Map{}
 	if req.Username != "" {
 		data[userCols.Username+" like ?"] = "%" + req.Username + "%"
@@ -207,7 +207,7 @@ func ListUser(ctx context.Context, req *vuser.ListUserReq) (res *vuser.ListUserR
 	}
 	var uid = gconv.Int(ctx.Value("uid"))
 	//var roleId = gconv.Int(ctx.Value("roleId"))
-	err = g.Model(dao.User.Table()).InnerJoin(dao.UserRelation.Table()+" ur", "user.id=ur.user_id").Where("ur.p_user_id", uid).Fields("user.*,ur.level").Where(data).Page(req.Page, req.Size).ScanAndCount(&resp.List, &resp.Total, false)
+	err = g.Model(dao.User.Table()).InnerJoin(dao.UserRelation.Table()+" ur", "user.id=ur.user_id").Where("ur.p_user_id", uid).Fields("user.*,ur.level").Where(data).Page(req.PageIndex, req.PageSize).ScanAndCount(&resp.List, &resp.Total, false)
 	if err != nil {
 		return nil, err
 	}

@@ -56,6 +56,9 @@ var (
 
 	ErrNoFileInput = gerror.NewCode(gcode.New(-5000, "没有上传文件", ""))
 	ErrFileInput   = gerror.NewCode(gcode.New(-5001, "上传出错", ""))
+
+	ErrNoticeReceivers = gerror.NewCode(gcode.New(-6000, "请填写接收人", ""))
+	ErrNoticeContent   = gerror.NewCode(gcode.New(-6001, "内容不能为空", ""))
 )
 
 const Role_Root_Code = 1024 //超级管理员

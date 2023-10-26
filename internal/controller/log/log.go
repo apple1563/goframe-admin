@@ -19,8 +19,8 @@ func (u *Log) ListLoginLog(ctx context.Context, req *vlog.ListLoginLogReq) (res 
 		List:          make([]*entity.LoginLog, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},
 	}
-	res.Page = req.CommonPageReq.Page
-	res.Size = req.CommonPageReq.Size
+	res.PageIndex = req.PageIndex
+	res.PageSize = req.PageSize
 	var cols = dao.LoginLog.Columns()
 	var model = dao.LoginLog.Ctx(ctx).OrderDesc(cols.UpdatedAt)
 	if req.Username != "" {
@@ -48,7 +48,7 @@ func (u *Log) ListLoginLog(ctx context.Context, req *vlog.ListLoginLogReq) (res 
 		slice = append(slice, uid)
 		model = model.WhereIn(cols.Uid, slice)
 	}
-	err = model.Page(req.CommonPageReq.Page, req.CommonPageReq.Size).ScanAndCount(&res.List, &res.Total, false)
+	err = model.Page(req.PageIndex, req.PageSize).ScanAndCount(&res.List, &res.Total, false)
 	if err != nil {
 		return nil, err
 	}

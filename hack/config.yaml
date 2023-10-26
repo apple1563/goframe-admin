@@ -16,3 +16,13 @@ gfcli:
     build: "-a amd64 -s linux -p temp -ew"
     tagPrefixes:
       - my.image.pub/my-app
+  build:
+    name: "gf"
+    arch: "amd64"
+    system: "linux,windows"
+    #system: "linux,darwin,windows"
+    mod: "none"
+    packSrc: "resource,manifest"
+    version: "v1.0.0"
+    path: "./bin"
+    extra: ""

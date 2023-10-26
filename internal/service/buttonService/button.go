@@ -86,10 +86,10 @@ func ListButton(ctx context.Context, req *vbutton.ListButtonReq) (res *vbutton.L
 		data[buttonCols.Id] = req.Id
 	}
 	var model = dao.Button.Ctx(ctx).Where(data).Order(buttonCols.MenuId)
-	if req.Size != 0 {
-		resp.Page = req.Page
-		resp.Size = req.Size
-		model = model.Page(req.Page, req.Size)
+	if req.PageSize != 0 {
+		resp.PageIndex = req.PageIndex
+		resp.PageSize = req.PageSize
+		model = model.Page(req.PageIndex, req.PageSize)
 	}
 	err = model.ScanAndCount(&resp.List, &resp.Total, false)
 	if err != nil {

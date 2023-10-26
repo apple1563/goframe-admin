@@ -104,8 +104,8 @@ func ListFile(ctx context.Context, req *vfile.ListFileReq) (res *vfile.ListFileR
 		List:          make([]*entity.File, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},
 	}
-	res.Page = req.CommonPageReq.Page
-	res.Size = req.CommonPageReq.Size
+	res.PageIndex = req.PageIndex
+	res.PageSize = req.PageSize
 	var model = dao.File.Ctx(ctx).OrderDesc(fileCols.UpdatedAt)
 	if req.Drive != "" {
 		model = model.Where(fileCols.Drive, req.Drive)
@@ -116,7 +116,7 @@ func ListFile(ctx context.Context, req *vfile.ListFileReq) (res *vfile.ListFileR
 	if req.Ext != "" {
 		model = model.WhereLike(fileCols.Ext, "%"+req.Ext+"%")
 	}
-	err = model.Page(req.Page, req.CommonPageReq.Size).ScanAndCount(&res.List, &res.Total, false)
+	err = model.Page(req.PageIndex, req.PageSize).ScanAndCount(&res.List, &res.Total, false)
 	if err != nil {
 		return nil, err
 	}

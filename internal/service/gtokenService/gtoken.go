@@ -121,7 +121,6 @@ func (*GFtokenFn) AuthAfterFunc(r *ghttp.Request, respData gtoken.Resp) {
 		r.Response.WriteJsonExit(respData)
 		return
 	}
-
 	r.Middleware.Next()
 	//elapsedTime := time.Since(timeStart)
 	//requestBody := r.GetBodyString()
