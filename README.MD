@@ -4,23 +4,22 @@
     <p style="font-size: 28px;text-align: center">goframe-admin V1.0.0</p>
     <p align="center">
         <a href="https://goframe.org/pages/viewpage.action?pageId=1114119" target="_blank">
-	        <img src="https://img.shields.io/badge/goframe-2.5.4-green" alt="goframe">
+	        <img src="https://img.shields.io/badge/goframe-2.5.4-green" alt="goframe"/>
 	    </a>
 	    <a href="https://v3.vuejs.org/" target="_blank">
-	        <img src="https://img.shields.io/badge/vue-%5E3.3.4-green" alt="vue">
+	        <img src="https://img.shields.io/badge/vue-%5E3.3.4-green" alt="vue"/>
 	    </a>
 	    <a href="https://github.com/Tencent/tdesign-vue-next" target="_blank">
-	        <img src="https://img.shields.io/badge/tdesign--vue--next-%5E1.6.2-blue
-" alt="tdesign-vue-next">
+	        <img src="https://img.shields.io/badge/tdesign--vue--next-%5E1.6.2-blue" alt="tdesign-vue-next"/>
 	    </a>
 		<a href="https://www.tslang.cn/" target="_blank">
-	        <img src="https://img.shields.io/badge/typescript-~5.1.6-blue" alt="typescript">
+	        <img src="https://img.shields.io/badge/typescript-~5.1.6-blue" alt="typescript"/>
 	    </a>
 		<a href="https://vitejs.dev/" target="_blank">
-		    <img src="https://img.shields.io/badge/vite-%5E4.4.7-yellow" alt="vite">
+		    <img src="https://img.shields.io/badge/vite-%5E4.4.7-yellow" alt="vite"/>
 		</a>
 		<a href="https://gitee.com/lyt-top/vue-next-admin/blob/master/LICENSE" target="_blank">
-		    <img src="https://img.shields.io/badge/license-MIT-success" alt="license">
+		    <img src="https://img.shields.io/badge/license-MIT-success" alt="license"/>
 		</a>
 	</p>
 </div>
