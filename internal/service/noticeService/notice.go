@@ -194,7 +194,7 @@ func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiv
 		model = model.Where("a.status", req.Status)
 	}
 
-	model = model.OrderAsc("b.sort").OrderDesc("b.created_at").OrderAsc("b.status")
+	model = model.OrderAsc("b.sort").OrderDesc("b.created_at").OrderAsc("a.status")
 	if req.PageSize != 0 {
 		resp.PageIndex = req.PageIndex
 		resp.PageSize = req.PageSize
