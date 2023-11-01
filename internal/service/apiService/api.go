@@ -72,7 +72,7 @@ func ListApi(ctx context.Context, req *vapi.ListApiReq) (res *vapi.ListApiRes, e
 	if req.Group != "" {
 		data[apiCols.Group] = req.Group
 	}
-	var model = dao.Api.Ctx(ctx).Where(data).Order(apiCols.Group)
+	var model = dao.Api.Ctx(ctx).Where(data).OrderDesc(apiCols.CreatedAt).OrderAsc(apiCols.Group)
 	if req.PageSize != 0 {
 		resp.PageIndex = req.PageIndex
 		resp.PageSize = req.PageSize

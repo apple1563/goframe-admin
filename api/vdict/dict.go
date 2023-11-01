@@ -13,7 +13,7 @@ type AddDictReq struct {
 type AddDictRes struct{}
 
 type DeleteDictReq struct {
-	g.Meta `tags:"字典" method:"delete" path:"/dict"  sm:"添加" dc:"删除字典" `
+	g.Meta `tags:"字典" method:"delete" path:"/dict"  sm:"删除" dc:"删除字典" `
 	Id     uint `json:"id" v:"required" description:""`
 }
 type DeleteDictRes struct{}

@@ -13,7 +13,7 @@ type AddNoticeReq struct {
 type AddNoticeRes struct{}
 
 type DeleteNoticeReq struct {
-	g.Meta `tags:"通告" method:"delete" path:"/notice"  sm:"添加" dc:"删除通告" `
+	g.Meta `tags:"通告" method:"delete" path:"/notice"  sm:"删除" dc:"删除通告" `
 	Id     uint `json:"id" v:"required" description:""`
 }
 type DeleteNoticeRes struct{}
@@ -41,8 +41,9 @@ type OneNoticeReq struct {
 type OneNoticeRes *entity.Notice
 
 type ListNoticeForReceiverReq struct {
-	g.Meta `tags:"通告" method:"get" path:"/notice/list"  sm:"列表" dc:"通告列表" `
+	g.Meta `tags:"通告" method:"get" path:"/notice/receive/list"  sm:"列表" dc:"通告列表" `
 	*entity.Notice
+	Status int `json:"status"    description:"1未读2已读3隐藏，用户看过把status置为2"`
 	*vcommon.CommonPageReq
 }
 
@@ -55,4 +56,25 @@ type ItemNoticeForReceiver struct {
 type ListNoticeForReceiverRes struct {
 	List []*ItemNoticeForReceiver `json:"list"`
 	*vcommon.CommonPageRes
+}
+
+type DeleteNoticeForReceiverReq struct {
+	g.Meta `tags:"通告" method:"delete" path:"/notice/receive"  sm:"删除" dc:"删除接收通告" `
+	Id     uint `json:"id" v:"required" description:""`
+}
+type DeleteNoticeForReceiverRes struct{}
+
+type UpdateNoticeForReceiverReq struct {
+	g.Meta `tags:"通告" method:"put" path:"/notice/receive"  sm:"修改" dc:"设为已读" `
+	Status int  `json:"status"   v:"required" description:"1未读2已读3隐藏，用户看过把status置为2"`
+	Id     uint `json:"id" v:"required" description:""`
+}
+type UpdateNoticeForReceiverRes struct{}
+
+type GetNoticeUnreadCountForReceiverReq struct {
+	g.Meta `tags:"通告" method:"get" path:"/notice/receive/unread"  sm:"获取" dc:"获取未读消息个数" `
+}
+
+type GetNoticeUnreadCountForReceiverRes struct {
+	Count int `json:"count"`
 }

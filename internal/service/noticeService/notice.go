@@ -170,6 +170,7 @@ func OneNotice(ctx context.Context, req *vnotice.OneNoticeReq) (res *vnotice.One
 }
 
 // 接收端
+var noticeForReceiverCols = dao.NoticeUserRelation.Columns()
 
 func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiverReq) (res *vnotice.ListNoticeForReceiverRes, err error) {
 	//  在添加公告的时候在公告与个人的关联表写入数据，查询的时候join这个表
@@ -177,8 +178,9 @@ func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiv
 		List:          make([]*vnotice.ItemNoticeForReceiver, 0),
 		CommonPageRes: &vcommon.CommonPageRes{},
 	}
-	var model = g.Model(dao.NoticeUserRelation.Table(), "a").InnerJoin(dao.Notice.Table(), "b", "a.notice_id=b.id").Fields("a.uid,a.status,b.*").Where(
-		"a.uid", ctx.Value("uid"))
+	var uid = ctx.Value("uid")
+	var model = g.Model(dao.NoticeUserRelation.Table(), "a").InnerJoin(dao.Notice.Table(), "b", "a.notice_id=b.id").Fields("a.*,b.remark,b.title,b.tag,b.content,b.sort").Where(
+		"a.uid", uid)
 	if req.Title != "" {
 		model = model.WhereLike("b.title", req.Title)
 	}
@@ -188,8 +190,11 @@ func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiv
 	if req.Tag != "" {
 		model = model.WhereLike("b.tag", req.Tag)
 	}
+	if req.Status != 0 {
+		model = model.Where("a.status", req.Status)
+	}
 
-	model = model.OrderAsc("b.sort").OrderDesc("b.created_at")
+	model = model.OrderAsc("b.sort").OrderDesc("b.created_at").OrderAsc("b.status")
 	if req.PageSize != 0 {
 		resp.PageIndex = req.PageIndex
 		resp.PageSize = req.PageSize
@@ -200,4 +205,34 @@ func ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiv
 		return nil, err
 	}
 	return resp, nil
+}
+
+func DeleteNoticeForReceiver(ctx context.Context, req *vnotice.DeleteNoticeForReceiverReq) (res *vnotice.DeleteNoticeForReceiverRes, err error) {
+	_, err = dao.NoticeUserRelation.Ctx(ctx).Where(noticeForReceiverCols.Id, req.Id).Delete()
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func UpdateNoticeStatusForReceiver(ctx context.Context, req *vnotice.UpdateNoticeForReceiverReq) (res *vnotice.UpdateNoticeForReceiverRes, err error) {
+	_, err = dao.NoticeUserRelation.Ctx(ctx).Where(noticeForReceiverCols.Id, req.Id).Data(g.Map{
+		noticeForReceiverCols.Status: req.Status,
+	}).Update()
+	if err != nil {
+		return nil, err
+	}
+	return
+}
+
+func GetNoticeUnreadCountForReceiver(ctx context.Context, req *vnotice.GetNoticeUnreadCountForReceiverReq) (res *vnotice.GetNoticeUnreadCountForReceiverRes, err error) {
+	res = &vnotice.GetNoticeUnreadCountForReceiverRes{
+		Count: 0,
+	}
+	count, err := dao.NoticeUserRelation.Ctx(ctx).Where(noticeForReceiverCols.Uid, ctx.Value("uid")).Count(noticeForReceiverCols.Status, 1)
+	if err != nil {
+		return nil, err
+	}
+	res.Count = count
+	return
 }

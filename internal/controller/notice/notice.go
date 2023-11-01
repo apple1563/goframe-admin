@@ -33,3 +33,16 @@ func (u *Notice) OneNotice(ctx context.Context, req *vnotice.OneNoticeReq) (res 
 func (u *Notice) ListNoticeForReceiver(ctx context.Context, req *vnotice.ListNoticeForReceiverReq) (res *vnotice.ListNoticeForReceiverRes, err error) {
 	return noticeService.ListNoticeForReceiver(ctx, req)
 }
+
+func (u *Notice) DeleteNoticeForReceiver(ctx context.Context, req *vnotice.DeleteNoticeForReceiverReq) (res *vnotice.DeleteNoticeForReceiverRes, err error) {
+	return noticeService.DeleteNoticeForReceiver(ctx, req)
+}
+
+func (u *Notice) UpdateNoticeStatusForReceiver(ctx context.Context, req *vnotice.UpdateNoticeForReceiverReq) (res *vnotice.UpdateNoticeForReceiverRes, err error) {
+	return noticeService.UpdateNoticeStatusForReceiver(ctx, req)
+}
+
+func (u *Notice) GetNoticeUnreadCountForReceiver(ctx context.Context, req *vnotice.GetNoticeUnreadCountForReceiverReq) (res *vnotice.GetNoticeUnreadCountForReceiverRes, err error) {
+	return noticeService.GetNoticeUnreadCountForReceiver(ctx, req)
+
+}

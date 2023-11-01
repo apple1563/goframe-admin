@@ -2,6 +2,7 @@ server:
   name: "goframe-starter"
   address:     ":8888"
   serverRoot: "resource/public"
+  uploadRoot: "resource/public/upload"
   openapiPath: "/api.json"
   swaggerPath: "/swagger"
   # Logging配置
@@ -12,7 +13,9 @@ server:
   errorLogPattern: "error-{Ymd}.log"  # 异常错误日志文件格式。默认为"error-{Ymd}.log"
   accessLogEnabled: true              # 是否记录访问日志。默认为false
   accessLogPattern: "access-{Ymd}.log" # 访问日志文件格式。默认为"access-{Ymd}.log"
-
+  # PProf配置
+  pprofEnabled: false                          # 是否开启PProf性能调试特性。默认为false
+  pprofPattern: "/pprof"                      # 开启PProf时有效，表示PProf特性的页面访问路径，对当前Server绑定的所有域名有效。
 logger:
   path: "logs/run"
   file: "{Y-m-d}.log"
@@ -24,7 +27,7 @@ cache:
 gfToken:
   cacheKey: "gfToken:"
   cacheMode: 2 # 1 gcache  2 redis 3 file
-  timeOut: 10800
+  timeOut: 86400000
   encryptKey: "49c54195e750b04e74a8429b17896586"
   maxRefresh: 5400
   multiLogin: true
@@ -46,7 +49,7 @@ database:
     Path: "logs/sql"
 
   default:
-    link: "mysql:root:123456@tcp(127.0.0.1:3306)/starter?loc=Local&parseTime=true"
+    link: "mysql:starter:HPxNd6sT48yehDCr@tcp(163.197.246.80:3306)/starter?loc=Local&parseTime=true"
     debug:  true
     charset: "utf8mb4" #数据库编码
     dryRun: false #空跑

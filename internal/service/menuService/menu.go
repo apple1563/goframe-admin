@@ -130,9 +130,9 @@ func getAllMenus(ctx context.Context) (res []*entity.Menu, err error) {
 	// 超级管理员返回所有菜单，其他角色按权限设置的来
 	var roleId = gconv.Uint(ctx.Value("roleId"))
 	if roleId == 1024 { // 1024为超级管理员
-		err = dao.Menu.Ctx(ctx).Scan(&res)
+		err = dao.Menu.Ctx(ctx).OrderAsc(menuCols.Sort).Scan(&res)
 	} else {
-		err = dao.Menu.Ctx(ctx).WhereIn(menuCols.Id, getRoleMenuIds(roleId)).Scan(&res)
+		err = dao.Menu.Ctx(ctx).WhereIn(menuCols.Id, getRoleMenuIds(roleId)).OrderAsc(menuCols.Sort).Scan(&res)
 	}
 	if err != nil {
 		return nil, err
