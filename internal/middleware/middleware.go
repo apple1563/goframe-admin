@@ -18,12 +18,16 @@ func DefaultCORS(r *ghttp.Request) {
 	r.Middleware.Next()
 }
 
+var rule *ratelimit.Rule
+
 func RequestIpLimit(r *ghttp.Request) {
 	ip := r.GetClientIp()
-	rule := ratelimit.NewRule()
-	rule.AddRule(time.Hour, 10000)
-	rule.AddRule(time.Minute, 600)
-	rule.AddRule(time.Second, 60)
+	if rule == nil {
+		rule = ratelimit.NewRule()
+		rule.AddRule(time.Hour, 10000)
+		rule.AddRule(time.Minute, 600)
+		rule.AddRule(time.Second, 60)
+	}
 	ok := rule.AllowVisit(ip)
 	if !ok {
 		g2 := gtoken.Resp{
